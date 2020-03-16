@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/a"
+    tools:context=".MainActivity">
+
+    <ImageView
+        android:id="@+id/kiit"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/kiit"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/user"
+        android:layout_below="@id/kiit"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="50dp"
+        app:errorEnabled="true"
+        android:background="@drawable/style_edit_text"
+        android:layout_marginTop="20dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter user id"
+            android:textColor="@color/kiit_green"
+            android:inputType="number" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/password"
+        android:layout_below="@+id/user"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="50dp"
+        app:passwordToggleEnabled="true"
+        app:errorEnabled="true"
+        android:background="@drawable/style_edit_text"
+
+        android:layout_marginTop="15dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter password"
+            android:textColor="@color/kiit_green"
+            android:inputType="textPassword"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/tvForgotpass"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/password"
+        android:layout_alignRight="@id/password"
+        android:layout_marginTop="15dp"
+        android:textSize="20dp"
+        android:textColor="@color/kiit_green"
+        android:text="Forgot Password"/>
+
+    <Button
+        android:id="@+id/btLogin"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_below="@id/tvForgotpass"
+        android:layout_marginTop="15dp"
+        android:layout_centerHorizontal="true"
+        android:text="LOGIN"
+        android:textSize="20dp"
+        android:layout_marginLeft="50dp"
+        android:textColor="#ffffff"
+        android:shadowColor="#12ca2b"/>
+
+    <TextView
+        android:id="@+id/tvNewuser"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btLogin"
+        android:layout_alignRight="@id/btLogin"
+        android:layout_marginTop="15dp"
+        android:textSize="20dp"
+        android:textColor="@color/kiit_green"
+        android:text="New User? Register here"/>
+
+
+
+
+
+
+</RelativeLayout>
