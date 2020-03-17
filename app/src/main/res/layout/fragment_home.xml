@@ -7,10 +7,41 @@
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
+        android:id="@+id/tvStudentName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_centerHorizontal="true"
+        android:textSize="30dp"
+        android:text="Student Name"
+        android:textColor="@color/kiit_green"
+        android:textAlignment="center"
+        android:textStyle="bold"
+        android:layout_marginLeft="50dp"
+        />
+
+    <TextView
+        android:id="@+id/tvStudentRoll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvStudentName"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:textSize="30dp"
+        android:text="Student Roll"
+        android:textColor="@color/kiit_green"
+        android:textAlignment="center"
+        android:textStyle="bold"
+        android:layout_marginLeft="50dp" />
+
+
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:text="HOME"
-        android:textSize="30dp"/>
+        android:textSize="30dp"
+        android:drawableRight="@drawable/genrate_pass_icon"/>
+
+
 
 </RelativeLayout>

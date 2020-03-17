@@ -2,6 +2,7 @@ package com.example.librarypass;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -55,6 +56,8 @@ public class Login extends AppCompatActivity {
 
     private void sendUsertoregactivity()
     {
+        Intent Registration_Intent=new Intent(Login.this,Registration.class);
+        startActivity(Registration_Intent);
 
     }
 }
