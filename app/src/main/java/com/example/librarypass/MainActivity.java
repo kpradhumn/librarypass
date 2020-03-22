@@ -9,6 +9,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
@@ -35,6 +36,8 @@ public class MainActivity extends AppCompatActivity {
         mviewpager.setAdapter(mviewpageradapter);
 
         mtablayout.setupWithViewPager(mviewpager);
+
+
 
 
     }
