@@ -15,7 +15,7 @@
         android:layout_centerHorizontal="true"
         android:textSize="30dp"
         android:text="Student Name"
-        android:visibility="visible"
+        android:visibility="invisible"
         android:textColor="@color/kiit_green"
         android:textAlignment="center"
         android:textStyle="bold"
@@ -31,12 +31,45 @@
         android:layout_marginTop="20dp"
         android:textSize="30dp"
         android:text="Student Roll"
-        android:visibility="visible"
+        android:visibility="invisible"
         android:textColor="@color/kiit_green"
         android:textAlignment="center"
         android:textStyle="bold"
         android:layout_marginLeft="50dp" />
 
+    <TextView
+        android:id="@+id/pass_genrated"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="Pass Genrated"
+        android:textSize="55dp"
+        android:textColor="@color/kiit_green"
+        android:layout_marginTop="60dp"
+        android:visibility="invisible"/>
+
+
+    <TextView
+        android:id="@+id/pass_verified"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="Pass Verified"
+        android:textSize="55dp"
+        android:textColor="@color/kiit_green"
+        android:layout_marginTop="60dp"
+        android:visibility="invisible"/>
+
+    <TextView
+        android:id="@+id/pass_returned"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="Pass Returned"
+        android:textSize="55dp"
+        android:textColor="@color/kiit_green"
+        android:layout_marginTop="60dp"
+        android:visibility="visible"/>
 
     <TextView
         android:id="@+id/pass_genrate"
@@ -44,13 +77,149 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:textSize="30dp"
-        android:visibility="visible"
+        android:visibility="invisible"
         android:drawableRight="@drawable/genrate_pass_icon"/>
 
 
 
+    <androidx.cardview.widget.CardView
+        android:id="@+id/pass_container"
+        android:layout_width="match_parent"
+        android:layout_height="225dp"
+        android:layout_centerInParent="true"
+        android:layout_marginLeft="50dp"
+        android:visibility="visible"
+        >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="10dp">
 
 
+            <ImageView
+                android:id="@+id/img_pkiit"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:src="@drawable/kiit_logo3"
+                android:layout_marginTop="5dp"/>
+            <TextView
+                android:id="@+id/tv_pname1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/img_pkiit"
+                android:text="Name :"
+                android:textSize="25dp"
+                android:layout_marginTop="5dp" />
+            <TextView
+                android:id="@+id/tv_pname2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/img_pkiit"
+                android:layout_toRightOf="@+id/tv_pname1"
+                android:text="Student name"
+                android:textSize="25dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="5dp"/>
+
+            <TextView
+                android:id="@+id/tv_proll1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_pname1"
+                android:text="Roll :"
+                android:textSize="25dp"
+                android:layout_marginTop="5dp"/>
+            <TextView
+                android:id="@+id/tv_proll2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_pname1"
+                android:layout_toRightOf="@+id/tv_pname1"
+                android:text="Student Roll"
+                android:textSize="25dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="5dp"/>
+
+            <TextView
+                android:id="@+id/tv_pdate1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_proll1"
+                android:text="Date :"
+                android:textSize="25dp"
+                android:layout_marginTop="5dp"/>
+            <TextView
+                android:id="@+id/tv_pdate2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_proll2"
+                android:layout_toRightOf="@+id/tv_pdate1"
+                android:text="Today's date"
+                android:textSize="25dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="5dp"/>
+
+            <TextView
+                android:id="@+id/tv_ptime1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_pdate1"
+                android:text="Time :"
+                android:textSize="25dp"
+                android:layout_marginTop="5dp"/>
+            <TextView
+                android:id="@+id/tv_dtime2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_pdate1"
+                android:layout_toRightOf="@+id/tv_ptime1"
+                android:text="Time"
+                android:textSize="25dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="5dp"/>
+
+
+        </RelativeLayout>
+
+
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/cancel_pass"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/pass_container"
+        android:layout_marginLeft="220dp"
+        android:text="Cancel pass"
+        android:textSize="25dp"
+        android:layout_marginTop="15dp"
+        android:visibility="invisible"
+        android:textColor="@color/kiit_green"/>
+
+    <TextView
+        android:id="@+id/return_pass"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/pass_container"
+        android:layout_marginLeft="220dp"
+        android:text="Return pass"
+        android:textSize="25dp"
+        android:layout_marginTop="15dp"
+        android:visibility="invisible"
+        android:textColor="@color/kiit_green"/>
+
+    <TextView
+        android:id="@+id/new_pass"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/pass_container"
+        android:layout_marginLeft="195dp"
+        android:text="Genrate new pass"
+        android:textSize="25dp"
+        android:layout_marginTop="15dp"
+        android:visibility="visible"
+        android:textColor="@color/kiit_green"/>
 
 
 </RelativeLayout>
