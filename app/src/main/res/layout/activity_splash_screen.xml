@@ -4,14 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_white"
+    android:background="@drawable/a"
     tools:context=".SplashScreen">
 
     <ImageView
         android:id="@+id/Kiit1"
         android:layout_width="match_parent"
         android:layout_height="436dp"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="60dp"
         android:src="@drawable/kiitsplash"/>
 
 </LinearLayout>

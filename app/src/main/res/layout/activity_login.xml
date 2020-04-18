@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/a"
+    android:background="#426161"
     tools:context=".MainActivity">
 
     <ImageView
@@ -67,23 +67,20 @@
 
     <Button
         android:id="@+id/btLogin"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:background="@drawable/login"
         android:layout_below="@id/tvForgotpass"
         android:layout_marginTop="15dp"
         android:layout_centerHorizontal="true"
-        android:text="LOGIN"
-        android:textSize="20dp"
-        android:layout_marginLeft="50dp"
-        android:textColor="#ffffff"
-        android:shadowColor="#12ca2b"/>
+        android:layout_marginLeft="50dp"></Button>
 
     <TextView
         android:id="@+id/tvNewuser"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/btLogin"
-        android:layout_alignRight="@id/btLogin"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="15dp"
         android:textSize="20dp"
         android:textColor="@color/kiit_green"
