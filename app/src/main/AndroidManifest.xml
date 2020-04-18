@@ -10,8 +10,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".Guideline"></activity>
-        <activity android:name=".Registration" />
-        <activity android:name=".Login" />
+        <activity android:name="studentAuth.Registration" />
+        <activity android:name="studentAuth.Login" />
         <activity android:name=".MainActivity" />
         <activity android:name=".SplashScreen">
             <intent-filter>

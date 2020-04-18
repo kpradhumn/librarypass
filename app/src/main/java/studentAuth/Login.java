@@ -1,4 +1,4 @@
-package com.example.librarypass;
+package studentAuth;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.librarypass.R;
 import com.google.android.material.textfield.TextInputLayout;
 
 public class Login extends AppCompatActivity {

@@ -9,10 +9,13 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
+
+import mainFragments.ViewPagerAdapter;
+import studentAuth.Login;
+import studentAuth.Registration;
 
 public class MainActivity extends AppCompatActivity {
     private Toolbar mtoolbar;
@@ -56,13 +59,13 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.update:
             {
-                Intent Registration_Intent=new Intent(MainActivity.this,Registration.class);
+                Intent Registration_Intent=new Intent(MainActivity.this, Registration.class);
                 startActivity(Registration_Intent);
                 break;
             }
             case R.id.Logout:
             {
-                Intent Login_Intent=new Intent(MainActivity.this,Login.class);
+                Intent Login_Intent=new Intent(MainActivity.this, Login.class);
                 startActivity(Login_Intent);
                 break;
             }
