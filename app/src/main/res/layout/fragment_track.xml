@@ -15,7 +15,7 @@
         android:layout_centerHorizontal="true"
         android:text="☹"
         android:textSize="60dp"
-        android:visibility="visible"/>
+        android:visibility="invisible"/>
     <TextView
         android:id="@+id/tv_not_genrated"
         android:layout_width="wrap_content"
@@ -25,7 +25,7 @@
         android:text="Pass is not genrated yet!!"
         android:textSize="30dp"
         android:textStyle="bold"
-        android:visibility="visible"/>
+        android:visibility="invisible"/>
 
 
     <TextView
@@ -37,7 +37,7 @@
         android:textColor="#000000"
         android:textStyle="bold"
         android:layout_marginTop="10dp"
-        android:visibility="invisible"
+        android:visibility="visible"
         />
 
     <TextView
@@ -50,7 +50,7 @@
         android:textColor="#000000"
         android:textStyle="bold"
         android:layout_marginTop="0dp"
-        android:visibility="invisible"
+        android:visibility="visible"
         />
 
     <TextView
@@ -63,7 +63,7 @@
         android:textColor="#000000"
         android:textStyle="bold"
         android:layout_marginTop="0dp"
-        android:visibility="invisible"
+        android:visibility="visible"
         />
 
     <TextView
@@ -78,7 +78,7 @@
         android:textColor="#000000"
         android:textStyle="bold"
         android:layout_marginTop="0dp"
-        android:visibility="invisible"
+        android:visibility="visible"
         />
     <TextView
         android:id="@+id/dot_passgenrated"
@@ -88,7 +88,7 @@
         android:layout_below="@+id/tv_pass_id2"
         android:layout_marginTop="40dp"
         android:layout_marginLeft="30dp"
-        android:visibility="invisible"/>
+        android:visibility="visible"/>
 
     <TextView
         android:id="@+id/tv_passgenrated"
@@ -96,12 +96,12 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/tv_pass_id2"
         android:layout_toRightOf="@id/dot_passgenrated"
-        android:text="Pass genrated"
+        android:text="Pass Requested"
         android:textSize="30dp"
         android:textColor="#000000"
         android:layout_marginTop="35dp"
         android:layout_marginLeft="20dp"
-        android:visibility="invisible"/>
+        android:visibility="visible"/>
 
 
     <TextView
@@ -111,7 +111,7 @@
         android:layout_below="@id/dot_passgenrated"
         android:drawableLeft="@drawable/pass_continue"
         android:layout_marginLeft="30dp"
-        android:visibility="invisible"/>
+        android:visibility="visible"/>
 
     <TextView
         android:id="@+id/dot_2"
@@ -121,7 +121,7 @@
         android:drawableLeft="@drawable/pass_continue"
         android:layout_marginLeft="30dp"
         android:layout_marginTop="-8dp"
-        android:visibility="invisible"/>
+        android:visibility="visible"/>
 
 
     <TextView
@@ -131,7 +131,7 @@
         android:drawableLeft="@drawable/track_complete"
         android:layout_below="@+id/dot_2"
         android:layout_marginLeft="30dp"
-        android:visibility="invisible"/>
+        android:visibility="visible"/>
 
 
     <TextView
@@ -140,12 +140,12 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/dot_passgenrated"
         android:layout_toRightOf="@id/dot_passverified"
-        android:text="Pass verified"
+        android:text="Pass Generated"
         android:textSize="30dp"
         android:textColor="#000000"
         android:layout_marginTop="55dp"
         android:layout_marginLeft="20dp"
-        android:visibility="invisible"/>
+        android:visibility="visible"/>
 
     <TextView
         android:id="@+id/dot_3"
@@ -154,7 +154,7 @@
         android:layout_below="@id/dot_passverified"
         android:drawableLeft="@drawable/pass_continue"
         android:layout_marginLeft="30dp"
-        android:visibility="invisible"/>
+        android:visibility="visible"/>
 
     <TextView
         android:id="@+id/dot_4"
@@ -164,7 +164,7 @@
         android:drawableLeft="@drawable/pass_continue"
         android:layout_marginLeft="30dp"
         android:layout_marginTop="-8dp"
-        android:visibility="invisible"/>
+        android:visibility="visible"/>
 
     <TextView
         android:id="@+id/dot_passreturned"
@@ -173,7 +173,7 @@
         android:drawableLeft="@drawable/track_complete"
         android:layout_below="@+id/dot_4"
         android:layout_marginLeft="30dp"
-        android:visibility="invisible"/>
+        android:visibility="visible"/>
 
     <TextView
         android:id="@+id/tv_passreturned"
@@ -186,7 +186,48 @@
         android:textColor="#000000"
         android:layout_marginTop="55dp"
         android:layout_marginLeft="20dp"
-        android:visibility="invisible"/>
+        android:visibility="visible"/>
+    <TextView
+        android:id="@+id/dot_5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/dot_passreturned"
+        android:drawableLeft="@drawable/pass_continue"
+        android:layout_marginLeft="30dp"
+        android:visibility="visible"/>
+
+    <TextView
+        android:id="@+id/dot_6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/dot_5"
+        android:drawableLeft="@drawable/pass_continue"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="-8dp"
+        android:visibility="visible"/>
+
+    <TextView
+        android:id="@+id/dot_passreturn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@drawable/track_complete"
+        android:layout_below="@+id/dot_6"
+        android:layout_marginLeft="30dp"
+        android:visibility="visible"/>
+
+    <TextView
+        android:id="@+id/tv_passreturn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/dot_passreturned"
+        android:layout_toRightOf="@id/dot_passreturn"
+        android:text="Pass verified"
+        android:textSize="30dp"
+        android:textColor="#000000"
+        android:layout_marginTop="55dp"
+        android:layout_marginLeft="20dp"
+        android:visibility="visible"/>
+
 
 
 

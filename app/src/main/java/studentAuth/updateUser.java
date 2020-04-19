@@ -14,6 +14,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.librarypass.MainActivity;
 import com.example.librarypass.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -29,7 +30,7 @@ import java.util.HashMap;
 
 import Models.mStudent;
 
-public class Registration extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+public class updateUser extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     Spinner spStream;
     TextView tvName, tvRoll, tvContact, tvHoste, tvYear, tvStream, tvBranch, tvcnfpwd, tvpwd;
@@ -49,7 +50,7 @@ public class Registration extends AppCompatActivity implements AdapterView.OnIte
         setContentView(R.layout.activity_registration);
         mauth = FirebaseAuth.getInstance();
         fstore = FirebaseFirestore.getInstance();
-        loadingbar=new ProgressDialog(Registration.this);
+        loadingbar=new ProgressDialog(updateUser.this);
 
 
         tvName = findViewById(R.id.tvName);
@@ -75,13 +76,16 @@ public class Registration extends AppCompatActivity implements AdapterView.OnIte
         spStream.setOnItemSelectedListener(this);
         btRegister = findViewById(R.id.btRegister);
 
+        FirebaseUser mFirebaseUser = mauth.getCurrentUser();
+        if(mFirebaseUser != null)
+            Retriveinfo();
 
 
 
         btRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int flag;
+                int flag=1;
                 name = etName.getText().toString();
                 conatct = etContact.getText().toString();
                 hostel = etHostel.getText().toString();
@@ -119,64 +123,14 @@ public class Registration extends AppCompatActivity implements AdapterView.OnIte
                     etBranch.setError("Branch is required");
                     flag = 0;
                 }
-                if (etpwd.getText().toString().trim().length() == 0) {
-                    etpwd.setError("Please set password");
-                    flag = 0;
-                }
-                if (etpwd.getText().toString().equals(etcnfpwd.getText().toString())) {
-                    setpwd = etcnfpwd.getText().toString();
-
-                    flag = 1;
-
-                } else {
-                    etcnfpwd.setError("Password does not match");
-                    flag = 0;
-
-                }
                 if (flag == 1)
 
-                    createaccunt(roll, setpwd);
-
-
-            }
-        });
-
-    }
-
-
-    private void createaccunt(String roll, String setpwd) {
-
-        loadingbar.setTitle("Creating new Account");
-        loadingbar.setMessage("Please wait while we are creating account for you");
-        loadingbar.setCanceledOnTouchOutside(true);
-        loadingbar.show();
-
-        mauth.createUserWithEmailAndPassword(roll, setpwd).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-            @Override
-
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if (task.isSuccessful()) {
-                    FirebaseUser user = mauth.getCurrentUser();
-                    user.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            Toast.makeText(Registration.this, "email verification sent", Toast.LENGTH_LONG).show();
-
-                        }
-                    });
-                    String currentuserid = mauth.getCurrentUser().getUid();
-                    Toast.makeText(Registration.this, "Account created suuccsefuly", Toast.LENGTH_LONG).show();
-                    loadingbar.dismiss();
                     updateuserinfo();
-                    sendUsertologin();
-                } else {
-                    String message = task.getException().toString();
-                    Toast.makeText(Registration.this, message, Toast.LENGTH_LONG).show();
-                    loadingbar.dismiss();
-                }
+
 
             }
         });
+
     }
 
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -192,6 +146,62 @@ public class Registration extends AppCompatActivity implements AdapterView.OnIte
         ((TextView)spStream.getSelectedView()).setError("Stream is required");
 
     }
+    private void Retriveinfo() {
+        loadingbar.setTitle("Please Wait");
+        loadingbar.setMessage("We Are Fetching Your Information...");
+        loadingbar.setCanceledOnTouchOutside(false);
+        loadingbar.show();
+        btRegister.setText("UPDATE PROFILE");
+        tvcnfpwd.setVisibility(View.INVISIBLE);
+        tvpwd.setVisibility(View.INVISIBLE);
+        etcnfpwd.setVisibility(View.INVISIBLE);
+        etpwd.setVisibility(View.INVISIBLE);
+        fstore= FirebaseFirestore.getInstance();
+        currentuserid=mauth.getCurrentUser().getUid();
+        DocumentReference docRef = fstore.collection("Student").document(currentuserid);
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        existence=true;
+                        btRegister.setText("Update Profile");
+                        mStudent = document.toObject(Models.mStudent.class);
+                        setExistingData(mStudent);
+                        //setLayoutWidgets(mBuyerPrsetExistingData(mStudent);
+                    } else {
+                        loadingbar.dismiss();
+                        //Toast.makeText(BuyeProfileCreation.this,"No data history found",Toast.LENGTH_LONG).show();
+                    }
+                } else {
+                    loadingbar.dismiss();
+                    Toast.makeText(updateUser.this,"No data history found task failed",Toast.LENGTH_LONG).show();
+                }
+
+            }
+        });
+
+
+    }
+
+    private void setExistingData(Models.mStudent mStudent) {
+        etName.setText(mStudent.getNm());
+        etContact.setText(mStudent.getPhn());
+        etBranch.setText(mStudent.getBr());
+        //Toast.makeText(BuyeProfileCreation.this,mStudent.getStreet(),Toast.LENGTH_LONG).show();
+        etHostel.setText(mStudent.getH());
+        etRoll.setText(mStudent.getRoll());
+        etYear.setText(mStudent.getYr());
+        //spStream.setAdapter(mStudent.getStrm());
+        loadingbar.dismiss();
+
+
+    }
+
+
+
+
     private void updateuserinfo()
     {
         currentuserid=mauth.getCurrentUser().getUid();
@@ -209,16 +219,16 @@ public class Registration extends AppCompatActivity implements AdapterView.OnIte
         documentReference.set(profilemap).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-                Toast.makeText(Registration.this, "Profile updated successfully", Toast.LENGTH_LONG).show();
-
+                Toast.makeText(updateUser.this, "Profile updated successfully", Toast.LENGTH_LONG).show();
+                sendUsertoMain();
             }
         });
 
     }
 
-    private void sendUsertologin() {
+    private void sendUsertoMain() {
 
-        Intent mainintent=new Intent(Registration.this, Login.class);
+        Intent mainintent=new Intent(updateUser.this, MainActivity.class);
 
         mainintent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(mainintent);

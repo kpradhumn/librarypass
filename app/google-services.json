@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "91832592128",
+    "firebase_url": "https://librarypass-540bb.firebaseio.com",
+    "project_id": "librarypass-540bb",
+    "storage_bucket": "librarypass-540bb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:91832592128:android:de51387185732bcf1a75e5",
+        "android_client_info": {
+          "package_name": "com.example.librarypass"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "91832592128-gm45ammm8agfcmsu291tnbhil2gei9pk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.librarypass",
+            "certificate_hash": "ddad817be3976bc8a255ea52c6c5bfa78bdea46f"
+          }
+        },
+        {
+          "client_id": "91832592128-g7m94j8hmn54m28jjttfb4odu7orcrai.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAWNVI5EuWxMjCB7JzfPxW7DHMJgY0Sayw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "91832592128-g7m94j8hmn54m28jjttfb4odu7orcrai.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

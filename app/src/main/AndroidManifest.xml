@@ -11,6 +11,7 @@
         android:theme="@style/AppTheme">
         <activity android:name=".Guideline"></activity>
         <activity android:name="studentAuth.Registration" />
+        <activity android:name="studentAuth.updateUser"/>
         <activity android:name="studentAuth.Login" />
         <activity android:name=".MainActivity" />
         <activity android:name=".SplashScreen">
