@@ -22,7 +22,6 @@
         android:layout_centerHorizontal="true"
         android:layout_marginLeft="50dp"
         app:errorEnabled="true"
-        android:background="@drawable/style_edit_text"
         android:layout_marginTop="20dp">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -42,7 +41,6 @@
         android:layout_marginLeft="50dp"
         app:passwordToggleEnabled="true"
         app:errorEnabled="true"
-        android:background="@drawable/style_edit_text"
 
         android:layout_marginTop="15dp">
 
@@ -60,7 +58,6 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/password"
         android:layout_alignRight="@id/password"
-        android:layout_marginTop="15dp"
         android:textSize="20dp"
         android:textColor="@color/kiit_green"
         android:text="Forgot Password"/>
@@ -81,14 +78,11 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/btLogin"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="15dp"
-        android:textSize="20dp"
+
+        android:layout_marginTop="143dp"
+        android:text="New User? Register here"
         android:textColor="@color/kiit_green"
-        android:text="New User? Register here"/>
-
-
-
-
+        android:textSize="20dp" />
 
 
 </RelativeLayout>
