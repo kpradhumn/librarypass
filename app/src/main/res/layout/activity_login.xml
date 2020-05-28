@@ -1,34 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#426161"
     tools:context=".MainActivity">
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/hor_55"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.08" />
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/hor_30"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.35" />
 
     <ImageView
         android:id="@+id/kiit"
-        android:layout_width="250dp"
-        android:layout_height="250dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:src="@drawable/kiit"/>
+        android:src="@drawable/kiit"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/hor_55"
+        app:layout_constraintVertical_bias="0.0" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/user"
-        android:layout_below="@id/kiit"
         android:layout_centerHorizontal="true"
-        android:layout_marginLeft="50dp"
         app:errorEnabled="true"
-        android:layout_marginTop="20dp">
+        app:layout_constraintTop_toBottomOf="@id/hor_30"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/password">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Enter user id"
-            android:textSize="19sp"
             android:textColor="@color/colorAccent"
             android:inputType="number" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -37,19 +54,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/password"
-        android:layout_below="@+id/user"
         android:layout_centerHorizontal="true"
-        android:layout_marginLeft="50dp"
+        app:layout_constraintTop_toBottomOf="@id/user"
+        app:layout_constraintBottom_toTopOf="@id/tvForgotpass"
         app:passwordToggleEnabled="true"
-        app:errorEnabled="true"
-
-        android:layout_marginTop="15dp">
+        app:errorEnabled="true">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Enter password"
-            android:textSize="19sp"
             android:textColor="@color/colorAccent"
             android:inputType="textPassword"/>
     </com.google.android.material.textfield.TextInputLayout>
@@ -58,33 +72,41 @@
         android:id="@+id/tvForgotpass"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/password"
         android:layout_alignRight="@id/password"
-        android:textSize="15dp"
+        android:text="Forgot Password"
         android:textColor="@color/colorAccent"
-        android:text="Forgot Password"/>
+        android:textSize="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.946"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/password"
+        app:layout_constraintBottom_toTopOf="@id/btLogin"/>
 
     <Button
         android:id="@+id/btLogin"
         android:layout_width="80dp"
         android:layout_height="80dp"
-        android:background="@drawable/login"
-        android:layout_below="@id/tvForgotpass"
-        android:layout_marginTop="15dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginLeft="50dp"></Button>
+        android:layout_marginTop="15dp"
+        android:background="@drawable/login"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvForgotpass"
+        app:layout_constraintBottom_toTopOf="@id/tvNewuser"></Button>
 
     <TextView
         android:id="@+id/tvNewuser"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/btLogin"
         android:layout_centerHorizontal="true"
-
-        android:layout_marginTop="143dp"
+        android:layout_marginTop="32dp"
         android:text="New User? Register here"
         android:textColor="@color/colorAccent"
-        android:textSize="20dp" />
+        android:textSize="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btLogin" />
 
 
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

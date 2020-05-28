@@ -1,17 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/a"
     tools:context=".SplashScreen">
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/hor_55"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.55" />
+
 
     <ImageView
         android:id="@+id/Kiit1"
         android:layout_width="match_parent"
         android:layout_height="436dp"
-        android:layout_marginTop="60dp"
-        android:src="@drawable/kiitsplash"/>
+        android:src="@drawable/kiitsplash"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.115"
+        app:layout_constraintBottom_toTopOf="@id/hor_55"
+        tools:layout_editor_absoluteX="0dp" />
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

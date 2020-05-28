@@ -3,9 +3,12 @@ package studentAuth;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -19,7 +22,14 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
+import Models.mStudent;
 import mainFragments.HomeFragment;
 
 public class Login extends AppCompatActivity {
@@ -29,6 +39,7 @@ public class Login extends AppCompatActivity {
     private Button btLogin;
     private FirebaseAuth mauth;
     private ProgressDialog loadingbar;
+    private Models.mStudent mStudent = null;
 
 
     @Override
@@ -116,14 +127,74 @@ public class Login extends AppCompatActivity {
 
     }
     private void sendUsertoMainactivity() {
+        FirebaseFirestore fstore = FirebaseFirestore.getInstance();
+        String currentuserid = mauth.getUid();
+        DocumentReference docRef = fstore.collection("Student").document(currentuserid);
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        mStudent = document.toObject(Models.mStudent.class);
+                        setMain(mStudent);
+                        //setLayoutWidgets(mBuyerPrsetExistingData(mStudent);
+                    } else {
 
-        Intent mainintent=new Intent(Login.this, MainActivity.class);
+                        //Toast.makeText(BuyeProfileCreation.this,"No data history found",Toast.LENGTH_LONG).show();
+                    }
+                } else {
+                    Toast.makeText(Login.this, "No data history found task failed", Toast.LENGTH_LONG).show();
+                }
 
-        mainintent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(mainintent);
-        finish();
+            }
+        });
+
+    }
+    private void allowlogin()
+    {
+        SharedPreferences sharedPreferences = getSharedPreferences("hostel_pref", MODE_PRIVATE);
+        String hostelName = sharedPreferences.getString("hostel", "");
+        Calendar calfordate = Calendar.getInstance();
+        SimpleDateFormat dayFormat = new SimpleDateFormat("dd");
+        String day = dayFormat.format(calfordate.getTime());
+        String currentuserid = mauth.getCurrentUser().getUid();
+        String uid = day.concat(currentuserid);
+        DocumentReference docRef = FirebaseFirestore.getInstance().collection("Hostel").document(hostelName).collection("studentList").document(uid);
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        String status = (String) document.get("status");
+                        if (status.equals("0")) {
+                            new AlertDialog.Builder(Login.this).setTitle("Cannot Login").setMessage(Html.fromHtml("Seems a user is <b>logged in</b> from another device.<br>Since a pass is yet to be <b>returned</b> from this user hence <b>login</b> for now is not possible.<br><b>Return</b> the pass first by scanning the QR code from logged in device "))
+                                    .setPositiveButton("OK", null).show();
+                        }
+                        else
+                        {Intent mainintent=new Intent(Login.this, MainActivity.class);
+                            mainintent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            startActivity(mainintent);
+                            finish();}}
+                    else
+                    {Intent mainintent=new Intent(Login.this, MainActivity.class);
+                        mainintent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(mainintent);
+                        finish();}
+                }
+            }
+        });
+    }
 
 
+    private void setMain(Models.mStudent mStudent) {
+        String hostel=mStudent.getH();
+        SharedPreferences sharedPreferences = getSharedPreferences("hostel_pref", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("hostel", hostel);
+        editor.apply();
+        allowlogin();
     }
 
 }

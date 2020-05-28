@@ -1,40 +1,40 @@
 package mainFragments;
 
-        import androidx.annotation.NonNull;
-        import androidx.annotation.RequiresApi;
-        import androidx.appcompat.app.AlertDialog;
-        import androidx.appcompat.app.AppCompatActivity;
-        import androidx.core.app.ActivityCompat;
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
-        import android.Manifest;
-        import android.content.Context;
-        import android.content.DialogInterface;
-        import android.content.Intent;
-        import android.content.SharedPreferences;
-        import android.content.pm.PackageManager;
-        import android.os.Build;
-        import android.os.Bundle;
-        import android.os.Vibrator;
-        import android.util.Log;
-        import android.util.SparseArray;
-        import android.view.SurfaceHolder;
-        import android.view.SurfaceView;
-        import android.view.View;
-        import android.widget.TextView;
-        import android.widget.Toast;
+import android.Manifest;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.os.Build;
+import android.os.Bundle;
+import android.os.Vibrator;
+import android.util.Log;
+import android.util.SparseArray;
+import android.view.SurfaceHolder;
+import android.view.SurfaceView;
+import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
 
-        import com.example.librarypass.MainActivity;
-        import com.example.librarypass.R;
-        import com.google.android.gms.vision.CameraSource;
-        import com.google.android.gms.vision.Detector;
-        import com.google.android.gms.vision.barcode.Barcode;
-        import com.google.android.gms.vision.barcode.BarcodeDetector;
-        import com.google.firebase.auth.FirebaseAuth;
-        import com.google.firebase.firestore.FirebaseFirestore;
+import com.example.librarypass.MainActivity;
+import com.example.librarypass.R;
+import com.google.android.gms.vision.CameraSource;
+import com.google.android.gms.vision.Detector;
+import com.google.android.gms.vision.barcode.Barcode;
+import com.google.android.gms.vision.barcode.BarcodeDetector;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
 
-        import java.io.IOException;
-        import java.text.SimpleDateFormat;
-        import java.util.Calendar;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 public class BarcodeScanner extends AppCompatActivity {
     SurfaceView surfaceView;

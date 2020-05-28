@@ -8,6 +8,7 @@ public class mStudent {
     String strm;
     String yr;
     String phn;
+    String time;
 
     public String getPhn() {
         return phn;
@@ -36,4 +37,8 @@ public class mStudent {
     public String getYr() {
         return yr;
     }
+    public String getTime() {
+        return time;
+    }
+
 }

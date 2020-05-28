@@ -35,7 +35,7 @@ public class updateUser extends AppCompatActivity implements AdapterView.OnItemS
     Spinner spStream;
     TextView tvName, tvRoll, tvContact, tvHoste, tvYear, tvStream, tvBranch, tvcnfpwd, tvpwd;
     EditText etName, etRoll, etContact, etHostel, etYear, etBranch, etpwd, etcnfpwd;
-    Button btRegister;
+    Button btRegister,btUpdate;
     private FirebaseAuth mauth;
     private FirebaseFirestore fstore;
     private ProgressDialog loadingbar;
@@ -75,6 +75,7 @@ public class updateUser extends AppCompatActivity implements AdapterView.OnItemS
         spStream = findViewById(R.id.spStream);
         spStream.setOnItemSelectedListener(this);
         btRegister = findViewById(R.id.btRegister);
+        btUpdate=findViewById(R.id.btupdate);
 
         FirebaseUser mFirebaseUser = mauth.getCurrentUser();
         if(mFirebaseUser != null)
@@ -82,7 +83,7 @@ public class updateUser extends AppCompatActivity implements AdapterView.OnItemS
 
 
 
-        btRegister.setOnClickListener(new View.OnClickListener() {
+        btUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 int flag=1;
@@ -151,7 +152,8 @@ public class updateUser extends AppCompatActivity implements AdapterView.OnItemS
         loadingbar.setMessage("We Are Fetching Your Information...");
         loadingbar.setCanceledOnTouchOutside(false);
         loadingbar.show();
-        btRegister.setText("UPDATE PROFILE");
+        btRegister.setVisibility(View.INVISIBLE);
+        btUpdate.setVisibility(View.VISIBLE);
         tvcnfpwd.setVisibility(View.INVISIBLE);
         tvpwd.setVisibility(View.INVISIBLE);
         etcnfpwd.setVisibility(View.INVISIBLE);

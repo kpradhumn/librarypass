@@ -188,7 +188,7 @@ public class HomeFragment extends Fragment {
                         alertDialog.dismiss();
                         char nameHostel[] = hostelName.toCharArray();
                         if (nameHostel[0] == 'q' || nameHostel[0] == 'Q') {
-                            if (finalhr >= 13 && finalhr <= 19) {
+                            if (finalhr >= 18 && finalhr <= 19) {
                                 imgCancelled.setVisibility(View.VISIBLE);
                                 newpass.setVisibility(view.VISIBLE);
                                 pass_status.setText("GENERATE A NEW PASS");
@@ -281,7 +281,7 @@ public class HomeFragment extends Fragment {
         char nameHostel[] = hostelName.toCharArray();
         Toast.makeText(getContext(), Arrays.toString(nameHostel), Toast.LENGTH_LONG).show();
         if (nameHostel[0] == 'q' || nameHostel[0] == 'Q') {
-            if (finalhr >= 13 && finalhr <= 19) {
+            if (finalhr >= 18 && finalhr <= 19) {
                 Log.d(TAG, "onclick: opening dialog");
                 createpoupdialog();
                 //fetchInfo();
@@ -327,7 +327,10 @@ public class HomeFragment extends Fragment {
         if (hostelstatus.equals("unread")) {
             new android.app.AlertDialog.Builder(getContext()).setTitle("Pass Returned!").setMessage(Html.fromHtml("Your Pass has been succesfully returned to hostel.You can now Logout or a get a new pass next day.<br> Good Night!<br>"))
                     .setPositiveButton("Ok", null).show();
-            sharedPreferences.edit().remove("return").commit();
+            //sharedPreferences.edit().remove("return").commit();
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString("return", "read");
+            editor.apply();
         }
 
 
@@ -430,12 +433,13 @@ public class HomeFragment extends Fragment {
             public void onClick(View view) {
                 //save to database
                 //go to next screen
-                dialog.dismiss();
+                pass_genrate.setVisibility(View.INVISIBLE);
                 pass_container.setVisibility(View.VISIBLE);
                 cancel_pass.setVisibility(View.VISIBLE);
                 pass_status.setText("Pass Generated");
                 fetchInfo();
                 setDataToDb();
+                dialog.dismiss();
             }
         });
 
@@ -468,6 +472,8 @@ public class HomeFragment extends Fragment {
     }
 
     private void setExistingDatatoDialog(Models.mStudent mStudent) {
+        newpass.setVisibility(View.INVISIBLE);
+        imgCancelled.setVisibility(View.INVISIBLE);
         tv_dname2.setText(mStudent.getNm());
         tv_droll2.setText(mStudent.getRoll());
         tv_ddate2.setText(currentdate);
@@ -495,8 +501,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onSuccess(Void aVoid) {
                 Log.d("set up", "Success");
-                newpass.setVisibility(View.INVISIBLE);
-                imgCancelled.setVisibility(View.INVISIBLE);
+
 
 
             }
