@@ -3,8 +3,8 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#1DD15A</color>
-    <color name="kiit_green">#3CB371</color>
+    <color name="kiit_green">#0b6f7b</color>
     <color name="background_white">#FFFFFF</color>
     <color name="background_green">#e8f5e9</color>
-    <color name="textcolor">#FF6347</color>
+    <color name="textcolor">#D11936</color>
 </resources>

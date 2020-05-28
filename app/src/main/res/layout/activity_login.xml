@@ -28,7 +28,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Enter user id"
-            android:textColor="@color/kiit_green"
+            android:textSize="19sp"
+            android:textColor="@color/colorAccent"
             android:inputType="number" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -48,7 +49,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Enter password"
-            android:textColor="@color/kiit_green"
+            android:textSize="19sp"
+            android:textColor="@color/colorAccent"
             android:inputType="textPassword"/>
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -58,8 +60,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/password"
         android:layout_alignRight="@id/password"
-        android:textSize="20dp"
-        android:textColor="@color/kiit_green"
+        android:textSize="15dp"
+        android:textColor="@color/colorAccent"
         android:text="Forgot Password"/>
 
     <Button
@@ -81,7 +83,7 @@
 
         android:layout_marginTop="143dp"
         android:text="New User? Register here"
-        android:textColor="@color/kiit_green"
+        android:textColor="@color/colorAccent"
         android:textSize="20dp" />
 
 
