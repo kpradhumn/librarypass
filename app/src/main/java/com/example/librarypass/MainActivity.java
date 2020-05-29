@@ -1,22 +1,28 @@
 package com.example.librarypass;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -31,15 +37,17 @@ import mainFragments.ViewPagerAdapter;
 import studentAuth.Login;
 import studentAuth.updateUser;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private Toolbar mtoolbar;
     private ViewPager mviewpager;
     private TabLayout mtablayout;
     private ViewPagerAdapter mviewpageradapter;
     private FirebaseAuth mauth;
     private FirebaseFirestore fstore;
-    private String currentuserid,hostelName,uid;
+    private String currentuserid, hostelName, uid;
     private FirebaseUser currentuser;
+    private DrawerLayout drawerLayout;
+    private static NavigationView navView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,70 +55,89 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         mauth = FirebaseAuth.getInstance();
         fstore = FirebaseFirestore.getInstance();
-        mtoolbar=(Toolbar) findViewById(R.id.main_page_toolbar);
-        mtablayout=findViewById(R.id.main_tab);
-        mviewpager=(ViewPager) findViewById(R.id.maintab_pager);
-        currentuser=mauth.getCurrentUser();
+        mtoolbar = (Toolbar) findViewById(R.id.main_page_toolbar);
+        mtablayout = findViewById(R.id.main_tab);
+        mviewpager = (ViewPager) findViewById(R.id.maintab_pager);
+        currentuser = mauth.getCurrentUser();
 
         setSupportActionBar(mtoolbar);
         getSupportActionBar().setTitle("LIBRARY PASS");
 
-        mviewpageradapter=new ViewPagerAdapter(getSupportFragmentManager());
+        mviewpageradapter = new ViewPagerAdapter(getSupportFragmentManager());
         mviewpager.setAdapter(mviewpageradapter);
+        //DrawerController.setIdentity("MainActivity");
+        navView = findViewById(R.id.nav_view);
+        navView.setNavigationItemSelectedListener(this);
+        drawerLayout = findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, mtoolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
 
         mtablayout.setupWithViewPager(mviewpager);
         SharedPreferences sharedPreferences = getSharedPreferences("hostel_pref", MODE_PRIVATE);
         hostelName = sharedPreferences.getString("hostel", "");
 
 
-
-
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater=getMenuInflater();
-        inflater.inflate(R.menu.main_menu,menu);
-        return true;
-    }
+    /*  @Override
+      public boolean onCreateOptionsMenu(Menu menu) {
+          MenuInflater inflater=getMenuInflater();
+          inflater.inflate(R.menu.main_menu,menu);
+          return true;
+      }
+
+     */
     @Override
     public void onStart() {
         super.onStart();
-        if(currentuser==null) {
+        if (currentuser == null) {
             gotoLogin();
             finish();
-        }
-        else
-            currentuserid=mauth.getCurrentUser().getUid();
+        } else
+            currentuserid = mauth.getCurrentUser().getUid();
 
     }
+
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
 
         switch (item.getItemId()) {
-            case R.id.update:
-            {
-                Intent Registration_Intent=new Intent(MainActivity.this, updateUser.class);
+            case R.id.nav_profile: {
+                Intent Registration_Intent = new Intent(MainActivity.this, updateUser.class);
                 startActivity(Registration_Intent);
                 break;
             }
-            case R.id.Logout:
-            {
+            case R.id.nav_logout: {
 
                 gotoLoginScreen();
                 break;
             }
-            case R.id.guide:
-            {
-                Intent Guideline_Intent=new Intent(MainActivity.this,Guideline.class);
+            case R.id.nav_guidlines: {
+                Intent Guideline_Intent = new Intent(MainActivity.this, Guideline.class);
                 startActivity(Guideline_Intent);
                 break;
             }
-        }
+            case R.id.nav_quspaper: {
+                String url = "http://library.kiit.ac.in/index.html";
+                Uri u = Uri.parse(url);
+                Intent i = new Intent(Intent.ACTION_VIEW, u);
+                startActivity(i);
+            }
+            case R.id.nav_rate:
+            {
 
+            }
+            case R.id.nav_gallery:
+            {
+
+            }
+        }
+        drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
+
     private void gotoLoginScreen() {
         Calendar calfordate = Calendar.getInstance();
         SimpleDateFormat dayFormat = new SimpleDateFormat("dd");
@@ -145,18 +172,19 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-    private void gotoLogin()
-    {
+
+    private void gotoLogin() {
         Intent intent = new Intent(MainActivity.this, Login.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
         finish();
 
     }
+
     @Override
     public void onBackPressed() {
         super.onBackPressed();
         finishAffinity(); // or finish();
     }
-
 }
+

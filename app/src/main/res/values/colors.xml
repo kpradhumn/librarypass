@@ -7,5 +7,9 @@
     <color name="background_white">#FFFFFF</color>
     <color name="background_green">#e8f5e9</color>
     <color name="textcolor">#D11936</color>
+    <color name="refresh">#008000</color>
+    <color name="refresh1">#008080</color>
+    <color name="refresh2">#800080</color>
     <color name="overlay_dark_30">#1A000000</color>
+
 </resources>

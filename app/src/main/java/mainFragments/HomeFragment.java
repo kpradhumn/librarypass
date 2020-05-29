@@ -42,6 +42,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
@@ -73,7 +74,7 @@ public class HomeFragment extends Fragment {
     private Models.mStudent mStudent = null;
     private FirebaseAuth mauth;
     private FirebaseFirestore fstore;
-    private String currentuserid, uid, hostelName;
+    private String currentuserid, uid, hostelName,day;
     private FirebaseUser currentuser;
     private AlertDialog dialog;
     private Button btn_dgenrate_pass;
@@ -116,7 +117,7 @@ public class HomeFragment extends Fragment {
         cancel_pass = view.findViewById(R.id.cancel_pass);
         Calendar calfordate = Calendar.getInstance();
         SimpleDateFormat dayFormat = new SimpleDateFormat("dd");
-        String day = dayFormat.format(calfordate.getTime());
+         day = dayFormat.format(calfordate.getTime());
         uid = day.concat(currentuserid);
         SharedPreferences sharedPreferences = this.getActivity().getSharedPreferences("hostel_pref", MODE_PRIVATE);
         hostelName = sharedPreferences.getString("hostel", "");
@@ -186,9 +187,19 @@ public class HomeFragment extends Fragment {
                     public void onClick(View v) {
                         currentuserid = mauth.getCurrentUser().getUid();
                         alertDialog.dismiss();
+
+                        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("pass"+day, MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putString("status", "3");
+                        editor.apply();
+                        editor.commit();
+                        sharedPreferences = getActivity().getSharedPreferences("cancel", MODE_PRIVATE);
+                        editor = sharedPreferences.edit();
+                        editor.putString("time",currenttime);
+                        editor.apply();
                         char nameHostel[] = hostelName.toCharArray();
                         if (nameHostel[0] == 'q' || nameHostel[0] == 'Q') {
-                            if (finalhr >= 18 && finalhr <= 19) {
+                            if (finalhr >= 00 && finalhr <= 19) {
                                 imgCancelled.setVisibility(View.VISIBLE);
                                 newpass.setVisibility(view.VISIBLE);
                                 pass_status.setText("GENERATE A NEW PASS");
@@ -244,6 +255,9 @@ public class HomeFragment extends Fragment {
                         }
 
                     }
+                    else {
+                        getPass();
+                    }
 
                 }
             });
@@ -260,12 +274,19 @@ public class HomeFragment extends Fragment {
                         if (task.isSuccessful()) {
                             DocumentSnapshot document = task.getResult();
                             if (document.exists()) {
+                                SharedPreferences preferences = getActivity().getSharedPreferences("pass"+day, MODE_PRIVATE);
+                                preferences.edit().remove("status").commit();
                                 new android.app.AlertDialog.Builder(getContext()).setTitle("No Pass for the day!").setMessage(Html.fromHtml("You can only issue one pass for a day.<br>Comeback again tomorrow to get a new pass."))
                                         .setPositiveButton("Ok", null).show();
                             } else {
+
                                 getPass();
                             }
 
+
+                        }
+                        else {
+                            getPass();
                         }
 
                     }
@@ -278,10 +299,15 @@ public class HomeFragment extends Fragment {
     }
 
     private void getPass() {
+        int prevdate=Integer.parseInt(day);
+        prevdate-=1;
+        String prevdates= String.valueOf(prevdate);
+        SharedPreferences preferences = getActivity().getSharedPreferences("pass"+prevdates, MODE_PRIVATE);
+        preferences.edit().remove("status").commit();
         char nameHostel[] = hostelName.toCharArray();
-        Toast.makeText(getContext(), Arrays.toString(nameHostel), Toast.LENGTH_LONG).show();
+       // Toast.makeText(getContext(), Arrays.toString(nameHostel), Toast.LENGTH_LONG).show();
         if (nameHostel[0] == 'q' || nameHostel[0] == 'Q') {
-            if (finalhr >= 18 && finalhr <= 19) {
+            if (finalhr >= 00 && finalhr <= 19) {
                 Log.d(TAG, "onclick: opening dialog");
                 createpoupdialog();
                 //fetchInfo();
@@ -331,6 +357,7 @@ public class HomeFragment extends Fragment {
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.putString("return", "read");
             editor.apply();
+            editor.commit();
         }
 
 
@@ -394,7 +421,7 @@ public class HomeFragment extends Fragment {
                         //Toast.makeText(BuyeProfileCreation.this,"No data history found",Toast.LENGTH_LONG).show();
                     }
                 } else {
-                    Toast.makeText(getContext(), "No data history found task failed", Toast.LENGTH_LONG).show();
+                    //Toast.makeText(getContext(), "No data history found task failed", Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -482,8 +509,19 @@ public class HomeFragment extends Fragment {
     }
 
     private void setDataToDb() {
-
         //Setting data to hostel and Library
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("pass"+day, MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("status", "0");
+        editor.apply();
+        sharedPreferences = getActivity().getSharedPreferences("date", MODE_PRIVATE);
+        editor = sharedPreferences.edit();
+        editor.putString("date",currentdate);
+        editor.apply();
+        sharedPreferences = getActivity().getSharedPreferences("gen", MODE_PRIVATE);
+        editor = sharedPreferences.edit();
+        editor.putString("time",currenttime);
+        editor.apply();
         currentuserid = mauth.getCurrentUser().getUid();
         DocumentReference documentReference = fstore.collection("Hostel").document(mStudent.getH()).collection("studentList").document(uid);
         HashMap<String, String> profilemap = new HashMap<>();

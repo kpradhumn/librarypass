@@ -102,6 +102,10 @@ public class BarcodeScanner extends AppCompatActivity {
                             String value = getIntent().getExtras().getString("task");
                             String hostel=getIntent().getExtras().getString("hostel");
                             if(value.equals("verification")) {
+                                SharedPreferences sharedPreferences = getSharedPreferences("pass"+day, MODE_PRIVATE);
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                editor.putString("status", "1");
+                                editor.apply();
                                 Calendar calfortime = Calendar.getInstance();
                                 SimpleDateFormat currenttimeformat = new SimpleDateFormat("hh:mm a");
                                 String currenttime = currenttimeformat.format(calfortime.getTime());
@@ -113,6 +117,11 @@ public class BarcodeScanner extends AppCompatActivity {
                                             .update("status", "1");
                                     fstore.collection("Hostel").document(hostel).collection("studentList").document(uid)
                                             .update("libStatus","1");
+                                    sharedPreferences =getSharedPreferences("ver", MODE_PRIVATE);
+                                    editor = sharedPreferences.edit();
+                                    editor.putString("time",currenttime);
+                                    editor.apply();
+                                    editor.commit();
                                     Intent intent = new Intent(BarcodeScanner.this, MainActivity.class);
                                     startActivity(intent);
                                     finish();
@@ -126,6 +135,10 @@ public class BarcodeScanner extends AppCompatActivity {
                                 }
                             }
                             else if(value.equals("return")) {
+                                SharedPreferences sharedPreference = getSharedPreferences("pass"+day, MODE_PRIVATE);
+                                SharedPreferences.Editor editors = sharedPreference.edit();
+                                editors.putString("status", "2");
+                                editors.commit();
                                 Calendar calfortime = Calendar.getInstance();
                                 SimpleDateFormat currenttimeformat = new SimpleDateFormat("hh:mm a");
                                 String currenttime = currenttimeformat.format(calfortime.getTime());
@@ -138,6 +151,11 @@ public class BarcodeScanner extends AppCompatActivity {
                                     SharedPreferences.Editor editor = sharedPreferences.edit();
                                     editor.putString("return", "unread");
                                     editor.apply();
+                                    sharedPreferences =getSharedPreferences("ret", MODE_PRIVATE);
+                                    editor = sharedPreferences.edit();
+                                    editor.putString("time",currenttime);
+                                    editor.apply();
+                                    editor.commit();
                                     Intent intent = new Intent(BarcodeScanner.this, MainActivity.class);
                                     startActivity(intent);
                                     finish();
