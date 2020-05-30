@@ -34,7 +34,7 @@
         android:id="@+id/emoji"
         android:layout_width="181dp"
         android:layout_height="148dp"
-        android:src="@drawable/nopassimg"
+        android:src="@drawable/notfound"
         android:textSize="80dp"
         android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
