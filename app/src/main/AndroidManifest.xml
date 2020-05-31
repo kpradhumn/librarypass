@@ -12,14 +12,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".Gallery"></activity>
         <activity android:name="mainFragments.BarcodeScanner" />
         <activity android:name=".Guideline" />
         <activity android:name="studentAuth.Registration" />
         <activity android:name="studentAuth.updateUser" />
         <activity android:name="studentAuth.Login" />
         <activity android:name="mainFragments.HomeFragment" />
-        <activity android:name=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

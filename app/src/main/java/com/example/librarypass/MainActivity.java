@@ -128,10 +128,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_rate:
             {
 
+
             }
             case R.id.nav_gallery:
             {
-
+                Intent Gallery_Intent = new Intent(MainActivity.this, Gallery.class);
+                startActivity(Gallery_Intent);
+                break;
             }
         }
         drawerLayout.closeDrawer(GravityCompat.START);
