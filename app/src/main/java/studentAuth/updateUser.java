@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -26,6 +27,8 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 import Models.mStudent;
@@ -43,6 +46,8 @@ public class updateUser extends AppCompatActivity implements AdapterView.OnItemS
     private String currentuserid, name, conatct, hostel, year, branch, stream, rollno;
     Boolean existence = false;
     private mStudent mStudent = null;
+    ArrayAdapter<String> adapterMonthspinner;
+    ArrayList<String> spinnerMonthList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +81,10 @@ public class updateUser extends AppCompatActivity implements AdapterView.OnItemS
         spStream.setOnItemSelectedListener(this);
         btRegister = findViewById(R.id.btRegister);
         btUpdate=findViewById(R.id.btupdate);
+        spinnerMonthList=new ArrayList<String>(Arrays.asList(getApplication().getResources().getStringArray(R.array.stream)));
+        spinnerMonthList.add(0,"Select Stream");
+        adapterMonthspinner= new ArrayAdapter<String>(updateUser.this,android.R.layout.simple_spinner_dropdown_item,spinnerMonthList);
+        spStream.setAdapter(adapterMonthspinner);
 
         FirebaseUser mFirebaseUser = mauth.getCurrentUser();
         if(mFirebaseUser != null)
@@ -195,6 +204,7 @@ public class updateUser extends AppCompatActivity implements AdapterView.OnItemS
         etHostel.setText(mStudent.getH());
         etRoll.setText(mStudent.getRoll());
         etYear.setText(mStudent.getYr());
+        spStream.setSelection(adapterMonthspinner.getPosition(mStudent.getStrm()));
         //spStream.setAdapter(mStudent.getStrm());
         loadingbar.dismiss();
 

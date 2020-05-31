@@ -127,8 +127,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
             case R.id.nav_rate:
             {
-
-
+                break;
             }
             case R.id.nav_gallery:
             {

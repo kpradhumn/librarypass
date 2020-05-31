@@ -6,40 +6,69 @@
     android:layout_height="match_parent"
     android:padding="15dp"
     tools:context=".Gallery">
+    <TextView
+        android:id="@+id/useless"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="INTO THE LIBRARAY"
+        android:textSize="30dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="10dp"
+        android:textAlignment="center"
+        android:textColor="#000000"
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/scroll"></TextView>
 
     <ScrollView
+        android:id="@+id/scroll"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         tools:layout_editor_absoluteX="-100dp"
+        app:layout_constraintTop_toBottomOf="@id/useless"
         tools:layout_editor_absoluteY="-2dp">
-
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:id="@+id/useless2">
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/hor_03"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.05" />
+            <ImageView
+                android:id="@+id/mainlib"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginTop="10dp"
+                android:src="@drawable/kiitlibrary"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/useless2"/>
 
 
             <ImageView
                 android:id="@+id/imageView1"
                 android:layout_width="180dp"
                 android:layout_height="200dp"
-                android:layout_marginTop="16dp"
-                android:src="@drawable/lib_img1"
+                android:layout_marginTop="10dp"
+                android:src="@drawable/lib_img4"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@id/mainlib" />
 
             <ImageView
                 android:id="@+id/imageView2"
                 android:layout_width="180dp"
                 android:layout_height="200dp"
                 android:src="@drawable/lib_img2"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imageView1"
-                app:layout_constraintVertical_bias="0.037" />
+                app:layout_constraintTop_toBottomOf="@+id/imageView1"/>
 
             <ImageView
                 android:id="@+id/imageView3"
@@ -55,22 +84,21 @@
                 android:id="@+id/imageView4"
                 android:layout_width="180dp"
                 android:layout_height="200dp"
-                android:layout_marginTop="16dp"
-                android:src="@drawable/lib_img4"
+                android:layout_marginTop="10dp"
+                android:src="@drawable/cseli"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.272"
                 app:layout_constraintStart_toEndOf="@+id/imageView1"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@id/mainlib" />
 
             <ImageView
                 android:id="@+id/imageView5"
                 android:layout_width="180dp"
                 android:layout_height="200dp"
-                android:layout_marginTop="12dp"
-                android:src="@drawable/lib_img5"
+                android:layout_marginTop="10dp"
+                android:src="@drawable/kiitlibs"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/imageView2"
-                app:layout_constraintTop_toBottomOf="@+id/imageView4" />
+                app:layout_constraintTop_toBottomOf="@+id/imageView1" />
 
             <ImageView
                 android:id="@+id/imageView6"
@@ -79,15 +107,13 @@
                 android:src="@drawable/lib_img6"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/imageView3"
-                app:layout_constraintTop_toBottomOf="@+id/imageView5" />
+                app:layout_constraintTop_toBottomOf="@+id/imageView2" />
 
             <ImageView
                 android:id="@+id/imageView7"
                 android:layout_width="180dp"
                 android:layout_height="200dp"
                 android:src="@drawable/lib_img7"
-                app:layout_constraintBottom_toBottomOf="parent"
-
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
@@ -99,11 +125,55 @@
                 android:layout_width="180dp"
                 android:layout_height="200dp"
                 android:src="@drawable/lib_img8"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/imageView7"
-                app:layout_constraintTop_toBottomOf="@+id/imageView6"
+                app:layout_constraintTop_toBottomOf="@+id/imageView3"
                 app:layout_constraintVertical_bias="1.0" />
+            <ImageView
+                android:id="@+id/imageView9"
+                android:layout_width="180dp"
+                android:layout_height="200dp"
+                android:src="@drawable/view1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imageView7"
+                app:layout_constraintVertical_bias="1.0" />
+
+            <ImageView
+                android:id="@+id/imageView10"
+                android:layout_width="180dp"
+                android:layout_height="200dp"
+                android:src="@drawable/view3"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/imageView9"
+                app:layout_constraintTop_toBottomOf="@+id/imageView7"
+                app:layout_constraintVertical_bias="1.0" />
+
+            <ImageView
+                android:id="@+id/imageView11"
+                android:layout_width="180dp"
+                android:layout_height="200dp"
+                android:src="@drawable/view2"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imageView9"
+                app:layout_constraintVertical_bias="1.0" />
+
+            <ImageView
+                android:id="@+id/imageView12"
+                android:layout_width="180dp"
+                android:layout_height="200dp"
+                android:src="@drawable/view4"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/imageView11"
+                app:layout_constraintTop_toBottomOf="@+id/imageView9"
+                app:layout_constraintVertical_bias="1.0" />
+
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

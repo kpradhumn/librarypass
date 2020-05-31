@@ -1,7 +1,7 @@
 <vector
     android:alpha="0.80"
     android:height="150dp"
-    android:tint="#3CF227"
+    android:tint="@color/kiit_green"
     android:viewportHeight="24.0"
     android:viewportWidth="24.0"
     android:width="150dp"

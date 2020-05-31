@@ -36,7 +36,7 @@
             <EditText
                 android:id="@+id/etName"
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
+                android:layout_height="40dp"
                 android:layout_below="@id/tvName"
                 android:layout_centerHorizontal="true"
                 android:layout_marginLeft="50dp"
@@ -57,7 +57,7 @@
             <EditText
                 android:id="@+id/etRoll"
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
+                android:layout_height="40dp"
                 android:layout_below="@id/tvRoll"
                 android:layout_centerHorizontal="true"
                 android:layout_marginLeft="50dp"
@@ -79,7 +79,7 @@
             <EditText
                 android:id="@+id/etContact"
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
+                android:layout_height="40dp"
                 android:layout_below="@id/tvContact"
                 android:layout_centerHorizontal="true"
                 android:layout_marginLeft="50dp"
@@ -101,7 +101,7 @@
             <EditText
                 android:id="@+id/etHostel"
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
+                android:layout_height="40dp"
                 android:layout_below="@id/tvHostel"
                 android:layout_centerHorizontal="true"
                 android:layout_marginLeft="50dp"
@@ -122,7 +122,7 @@
             <EditText
                 android:id="@+id/etYear"
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
+                android:layout_height="40dp"
                 android:layout_below="@id/tvYear"
                 android:layout_centerHorizontal="true"
                 android:layout_marginLeft="50dp"
@@ -143,7 +143,7 @@
             <Spinner
                 android:id="@+id/spStream"
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
+                android:layout_height="40dp"
                 android:layout_below="@id/tvStream"
                 android:layout_marginLeft="50dp"
                 android:layout_marginTop="5dp"
@@ -168,7 +168,7 @@
             <EditText
                 android:id="@+id/etBranch"
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
+                android:layout_height="40dp"
                 android:layout_below="@id/tvBranch"
                 android:layout_centerHorizontal="true"
                 android:layout_marginLeft="50dp"
@@ -188,7 +188,7 @@
             <EditText
                 android:id="@+id/etpwd"
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
+                android:layout_height="40dp"
                 android:layout_below="@id/tvpwd"
                 android:layout_centerHorizontal="true"
                 android:layout_marginLeft="50dp"
@@ -209,7 +209,7 @@
             <EditText
                 android:id="@+id/etcnfpwd"
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
+                android:layout_height="40dp"
                 android:layout_below="@id/tvcnfpwd"
                 android:layout_centerHorizontal="true"
                 android:layout_marginLeft="50dp"

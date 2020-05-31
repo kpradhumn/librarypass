@@ -25,11 +25,13 @@ import android.widget.Toast;
 
 import com.example.librarypass.MainActivity;
 import com.example.librarypass.R;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.vision.CameraSource;
 import com.google.android.gms.vision.Detector;
 import com.google.android.gms.vision.barcode.Barcode;
 import com.google.android.gms.vision.barcode.BarcodeDetector;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.io.IOException;
@@ -40,6 +42,7 @@ public class BarcodeScanner extends AppCompatActivity {
     SurfaceView surfaceView;
     CameraSource cameraSource;
     TextView textView;
+    String code;
     FirebaseFirestore fstore;
     BarcodeDetector barcodeDetector;
     public static  final String Shared_pref="sharedPrefs";
@@ -109,7 +112,12 @@ public class BarcodeScanner extends AppCompatActivity {
                                 Calendar calfortime = Calendar.getInstance();
                                 SimpleDateFormat currenttimeformat = new SimpleDateFormat("hh:mm a");
                                 String currenttime = currenttimeformat.format(calfortime.getTime());
-                                if (currenttime.equals(qrCode.valueAt(0).displayValue)) {
+                                fstore.collection("Hostel").document(hostel).collection("QrCodes").document("lib15").get().addOnSuccessListener(documentSnapshot ->
+                                {
+                                     code=documentSnapshot.getString("qr");
+
+                                });
+                                if (code.equals(qrCode.valueAt(0).displayValue)) {
                                     Vibrator vibrator = (Vibrator) getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
                                     vibrator.vibrate(500);
                                     fstore.collection("Library")
@@ -135,6 +143,11 @@ public class BarcodeScanner extends AppCompatActivity {
                                 }
                             }
                             else if(value.equals("return")) {
+                                fstore.collection("Hostel").document(hostel).collection("QrCodes").document("lib15").get().addOnSuccessListener(documentSnapshot ->
+                                {
+                                    code=documentSnapshot.getString("qr");
+
+                                });
                                 SharedPreferences sharedPreference = getSharedPreferences("pass"+day, MODE_PRIVATE);
                                 SharedPreferences.Editor editors = sharedPreference.edit();
                                 editors.putString("status", "2");
@@ -142,7 +155,7 @@ public class BarcodeScanner extends AppCompatActivity {
                                 Calendar calfortime = Calendar.getInstance();
                                 SimpleDateFormat currenttimeformat = new SimpleDateFormat("hh:mm a");
                                 String currenttime = currenttimeformat.format(calfortime.getTime());
-                                if (currenttime.equals(qrCode.valueAt(0).displayValue)) {
+                                if (code.equals(qrCode.valueAt(0).displayValue)) {
                                     Vibrator vibrator = (Vibrator) getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
                                     vibrator.vibrate(500);
                                     fstore.collection("Hostel").document(hostel).collection("studentList").document(uid)
