@@ -23,8 +23,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,6 +46,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
@@ -65,19 +69,21 @@ public class HomeFragment extends Fragment {
     SimpleDateFormat currenttimeformatnew = new SimpleDateFormat("HH");
     int finalhr = Integer.parseInt(currenttimeformatnew.format(calfortimenew.getTime()));
     static final int MY_REQUEST_CODE = 1000;
-
+    ArrayAdapter<String> adapterLibspinner;
+    ArrayList<String> spinnerMonthList;
     private TextView pass_genrate, pass_status;
     private CardView pass_container;
     private ImageView imgVerified, imgCancelled, scannerImg, returnScan;
-    private TextView name, roll, date, time, cancel_pass, newpass;
+    private TextView name, roll, date, time, cancel_pass, newpass,libname;
     private TextView tvname, tvroll, tvdate, tvtime;
     private Models.mStudent mStudent = null;
     private FirebaseAuth mauth;
     private FirebaseFirestore fstore;
-    private String currentuserid, uid, hostelName,day;
+    private String currentuserid, uid, hostelName,day,selectedLib;
     private FirebaseUser currentuser;
     private AlertDialog dialog;
     private Button btn_dgenrate_pass;
+    private Spinner spLib;
     private android.app.AlertDialog.Builder alertdialogbuilder;
     private android.app.AlertDialog alertDialog;
     private LayoutInflater inflater;
@@ -93,7 +99,6 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
-
         pass_genrate = view.findViewById(R.id.pass_genrate);
         newpass = view.findViewById(R.id.new_pass);
         imgCancelled = view.findViewById(R.id.crossed);
@@ -111,6 +116,7 @@ public class HomeFragment extends Fragment {
         tvroll = view.findViewById(R.id.tv_proll1);
         tvdate = view.findViewById(R.id.tv_pdate1);
         tvtime = view.findViewById(R.id.tv_ptime1);
+        libname=view.findViewById(R.id.tv_lib2);
         scannerImg = view.findViewById(R.id.scannerImg);
         returnScan = view.findViewById(R.id.returnScannerImg);
         currentuserid = mauth.getCurrentUser().getUid();
@@ -298,6 +304,7 @@ public class HomeFragment extends Fragment {
         return view;
     }
 
+
     private void getPass() {
         int prevdate=Integer.parseInt(day);
         prevdate-=1;
@@ -435,6 +442,8 @@ public class HomeFragment extends Fragment {
         String currentdate = currentdateformat.format(calfordate.getTime());
         date.setText(currentdate);
         time.setText(mStudent.getTime());
+        libname.setText(selectedLib);
+
     }
 
     private void createpoupdialog() {
@@ -450,6 +459,7 @@ public class HomeFragment extends Fragment {
         tv_ddate2 = view.findViewById(R.id.tv_ddate2);
         tv_dtime1 = view.findViewById(R.id.tv_dtime1);
         tv_dtime2 = view.findViewById(R.id.tv_dtime2);
+        spLib=view.findViewById(R.id.spLib);
         btn_dgenrate_pass = view.findViewById(R.id.btn_dgenrate_pass);
         dialogbuilder.setView(view);
         dialog = dialogbuilder.create();
@@ -505,6 +515,13 @@ public class HomeFragment extends Fragment {
         tv_droll2.setText(mStudent.getRoll());
         tv_ddate2.setText(currentdate);
         tv_dtime2.setText(currenttime);
+        spinnerMonthList=new ArrayList<String>();
+        spinnerMonthList.add(mStudent.getBr()+"Lib");
+        spinnerMonthList.add("Centeral Lib");
+        adapterLibspinner= new ArrayAdapter<String>(this.getActivity(),android.R.layout.simple_spinner_dropdown_item,spinnerMonthList);
+        adapterLibspinner.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spLib.setAdapter(adapterLibspinner);
+        selectedLib=spLib.getSelectedItem().toString();
 
     }
 
@@ -546,7 +563,7 @@ public class HomeFragment extends Fragment {
         });
         profilemap.put("hostel", mStudent.getH());
 
-        DocumentReference documentReferenceLib = fstore.collection("Library").document(uid);
+        DocumentReference documentReferenceLib = fstore.collection(selectedLib).document(uid);
         documentReferenceLib.set(profilemap).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {

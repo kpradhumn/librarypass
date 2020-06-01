@@ -37,9 +37,9 @@ import Models.mStudent;
 
 public class updateUser extends AppCompatActivity{
 
-    Spinner spStream,spBranch;
+    Spinner spStream,spBranch,spyear;
     TextView tvName, tvRoll, tvContact, tvHoste, tvYear, tvStream, tvBranch, tvcnfpwd, tvpwd;
-    EditText etName, etRoll, etContact, etHostel, etYear, etBranch, etpwd, etcnfpwd;
+    EditText etName, etRoll, etContact, etHostel, etpwd, etcnfpwd;
     Button btRegister,btUpdate;
     private FirebaseAuth mauth;
     private FirebaseFirestore fstore;
@@ -48,7 +48,7 @@ public class updateUser extends AppCompatActivity{
     private String currentuserid, name, conatct, hostel, year, branch, stream, rollno;
     Boolean existence = false;
     private mStudent mStudent = null;
-    ArrayAdapter<String> adapterMonthspinner,adapterMonthspinners;
+    ArrayAdapter<String> adapterMonthspinner,adapterMonthspinners,adapteryears;;
     ArrayList<String> spinnerMonthList;
 
     @Override
@@ -69,14 +69,13 @@ public class updateUser extends AppCompatActivity{
         tvBranch = findViewById(R.id.tvBranch);
         tvcnfpwd = findViewById(R.id.tvcnfpwd);
         tvpwd = findViewById(R.id.tvpwd);
-
+        spyear=findViewById(R.id.etYear);
         etcnfpwd = findViewById(R.id.etcnfpwd);
         etpwd = findViewById(R.id.etpwd);
         etName = findViewById(R.id.etName);
         etRoll = findViewById(R.id.etRoll);
         etContact = findViewById(R.id.etContact);
         etHostel = findViewById(R.id.etHostel);
-        etYear = findViewById(R.id.etYear);
         spBranch = findViewById(R.id.Spbranch);
         spStream = findViewById(R.id.spStream);
         btRegister = findViewById(R.id.btRegister);
@@ -87,6 +86,9 @@ public class updateUser extends AppCompatActivity{
         spinnerMonthList = new ArrayList<String>(Arrays.asList(getApplication().getResources().getStringArray(R.array.branch)));
         adapterMonthspinners = new ArrayAdapter<String>(updateUser.this, android.R.layout.simple_spinner_dropdown_item, spinnerMonthList);
         spBranch.setAdapter(adapterMonthspinners);
+        spinnerMonthList = new ArrayList<String>(Arrays.asList(getApplication().getResources().getStringArray(R.array.year)));
+        adapteryears = new ArrayAdapter<String>(updateUser.this, android.R.layout.simple_spinner_dropdown_item, spinnerMonthList);
+        spyear.setAdapter(adapteryears);
 
         FirebaseUser mFirebaseUser = mauth.getCurrentUser();
         if(mFirebaseUser != null)
@@ -101,7 +103,6 @@ public class updateUser extends AppCompatActivity{
                 name = etName.getText().toString();
                 conatct = etContact.getText().toString();
                 hostel = etHostel.getText().toString();
-                year = etYear.getText().toString();
                 rollno = etRoll.getText().toString();
                 if (etName.getText().toString().trim().length() == 0)
                     etName.setError("Name is required");
@@ -124,10 +125,6 @@ public class updateUser extends AppCompatActivity{
                     etHostel.setError("Hostel namae is required");
                     flag = 0;
                 }
-                if (etYear.getText().toString().trim().length() == 0) {
-                    etYear.setError("Year is required");
-                    flag = 0;
-                }
                 if (flag == 1)
 
                     updateuserinfo();
@@ -135,7 +132,19 @@ public class updateUser extends AppCompatActivity{
 
             }
         });
+        spyear.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                year= parent.getItemAtPosition(position).toString();
 
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                ((TextView)spyear.getSelectedView()).setError("Year is required");
+
+            }
+        });
         spBranch.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -145,6 +154,7 @@ public class updateUser extends AppCompatActivity{
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
+                ((TextView)spBranch.getSelectedView()).setError("Stream is required");
 
             }
         });
@@ -158,7 +168,7 @@ public class updateUser extends AppCompatActivity{
                         branch = spBranch.getItemAtPosition(position).toString();
 
                     } else {
-                        Toast.makeText(getApplicationContext(), "value-->>" + stream, Toast.LENGTH_LONG).show();
+                        //Toast.makeText(getApplicationContext(), "value-->>" + stream, Toast.LENGTH_LONG).show();
                         tvBranch.setVisibility(View.INVISIBLE);
                         spBranch.setVisibility(View.INVISIBLE);
                         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -225,14 +235,14 @@ public class updateUser extends AppCompatActivity{
         //Toast.makeText(BuyeProfileCreation.this,mStudent.getStreet(),Toast.LENGTH_LONG).show();
         etHostel.setText(mStudent.getH());
         etRoll.setText(mStudent.getRoll());
-        etYear.setText(mStudent.getYr());
+        spyear.setSelection(adapteryears.getPosition(mStudent.getYr()));
         spStream.setSelection(adapterMonthspinner.getPosition(mStudent.getStrm()));
         if(mStudent.getStrm().equals("B.Tech")||mStudent.getStrm().equals("M.Tech")) {
-            Toast.makeText(getApplicationContext(),"value-->>"+ mStudent.getBr(),Toast.LENGTH_LONG).show();
+            //Toast.makeText(getApplicationContext(),"value-->>"+ mStudent.getBr(),Toast.LENGTH_LONG).show();
             spBranch.setSelection(adapterMonthspinners.getPosition(mStudent.getBr()));
         }
         else {
-            Toast.makeText(getApplicationContext(),"value-->>"+ mStudent.getStrm(),Toast.LENGTH_LONG).show();
+            //Toast.makeText(getApplicationContext(),"value-->>"+ mStudent.getStrm(),Toast.LENGTH_LONG).show();
             tvBranch.setVisibility(View.INVISIBLE);
             spBranch.setVisibility(View.INVISIBLE);
         }

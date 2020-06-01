@@ -89,12 +89,31 @@
         android:textSize="25dp"
         android:layout_marginTop="10dp"
         android:layout_marginLeft="5dp"/>
+    <TextView
+        android:id="@+id/tv_lib"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_dtime1"
+        android:text="Library: "
+        android:textSize="25dp"
+        android:layout_marginTop="5dp"/>
+    <Spinner
+        android:id="@+id/spLib"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_below="@+id/tv_dtime2"
+        android:layout_toRightOf="@+id/tv_lib"
+        android:layout_centerHorizontal="true"
+        android:entries="@array/stream"
+        android:autofillHints="Choose Stream"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/spinner_boxed_back"/>
 
     <Button
         android:id="@+id/btn_dgenrate_pass"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_dtime1"
+        android:layout_below="@+id/tv_lib"
         android:text="Genrate Pass"
         android:textSize="20dp"
         android:layout_marginTop="15dp"

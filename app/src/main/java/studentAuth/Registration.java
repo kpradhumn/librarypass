@@ -36,11 +36,11 @@ import Models.mStudent;
 
 public class Registration extends AppCompatActivity  {
 
-    ArrayAdapter<String> adapterMonthspinner,adapterMonthspinners;
+    ArrayAdapter<String> adapterMonthspinner,adapterMonthspinners,adapteryears;
     ArrayList<String> spinnerMonthList;
-    Spinner spStream,spBranch;
+    Spinner spStream,spBranch,spyear;
     TextView tvName, tvRoll, tvContact, tvHoste, tvYear, tvStream, tvBranch, tvcnfpwd, tvpwd;
-    EditText etName, etRoll, etContact, etHostel, etYear, etBranch, etpwd, etcnfpwd;
+    EditText etName, etRoll, etContact, etHostel, etpwd, etcnfpwd;
     Button btRegister;
     private FirebaseAuth mauth;
     private FirebaseFirestore fstore;
@@ -67,15 +67,13 @@ public class Registration extends AppCompatActivity  {
         spBranch = findViewById(R.id.Spbranch);
         tvcnfpwd = findViewById(R.id.tvcnfpwd);
         tvpwd = findViewById(R.id.tvpwd);
-
         etcnfpwd = findViewById(R.id.etcnfpwd);
         etpwd = findViewById(R.id.etpwd);
         etName = findViewById(R.id.etName);
         etRoll = findViewById(R.id.etRoll);
         etContact = findViewById(R.id.etContact);
         etHostel = findViewById(R.id.etHostel);
-        etYear = findViewById(R.id.etYear);
-
+        spyear = findViewById(R.id.etYear);
         spStream = findViewById(R.id.spStream);
         btRegister = findViewById(R.id.btRegister);
         spinnerMonthList=new ArrayList<String>(Arrays.asList(getApplication().getResources().getStringArray(R.array.stream)));
@@ -84,6 +82,9 @@ public class Registration extends AppCompatActivity  {
         spinnerMonthList = new ArrayList<String>(Arrays.asList(getApplication().getResources().getStringArray(R.array.branch)));
         adapterMonthspinners = new ArrayAdapter<String>(Registration.this, android.R.layout.simple_spinner_dropdown_item, spinnerMonthList);
         spBranch.setAdapter(adapterMonthspinners);
+        spinnerMonthList = new ArrayList<String>(Arrays.asList(getApplication().getResources().getStringArray(R.array.year)));
+        adapteryears = new ArrayAdapter<String>(Registration.this, android.R.layout.simple_spinner_dropdown_item, spinnerMonthList);
+        spyear.setAdapter(adapteryears);
 
 
 
@@ -95,7 +96,6 @@ public class Registration extends AppCompatActivity  {
                 name = etName.getText().toString();
                 conatct = etContact.getText().toString();
                 hostel = etHostel.getText().toString();
-                year = etYear.getText().toString();
                 rollno = etRoll.getText().toString();
                 if (etName.getText().toString().trim().length() == 0)
                     etName.setError("Name is required");
@@ -116,10 +116,6 @@ public class Registration extends AppCompatActivity  {
                 }
                 if (etHostel.getText().toString().trim().length() == 0) {
                     etHostel.setError("Hostel namae is required");
-                    flag = 0;
-                }
-                if (etYear.getText().toString().trim().length() == 0) {
-                    etYear.setError("Year is required");
                     flag = 0;
                 }
                 if (etpwd.getText().toString().trim().length() == 0) {
@@ -189,6 +185,20 @@ public class Registration extends AppCompatActivity  {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
+                ((TextView)spBranch.getSelectedView()).setError("Stream is required");
+
+            }
+        });
+        spyear.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                year= parent.getItemAtPosition(position).toString();
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                ((TextView)spyear.getSelectedView()).setError("Year is required");
 
             }
         });
@@ -202,7 +212,6 @@ public class Registration extends AppCompatActivity  {
                         branch = spBranch.getItemAtPosition(position).toString();
 
                     } else {
-                        Toast.makeText(getApplicationContext(), "value-->>" + stream, Toast.LENGTH_LONG).show();
                         tvBranch.setVisibility(View.INVISIBLE);
                         spBranch.setVisibility(View.INVISIBLE);
                         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);

@@ -89,7 +89,7 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/pass_container"
         android:layout_width="wrap_content"
-        android:layout_height="240dp"
+        android:layout_height="270dp"
         app:layout_constraintTop_toBottomOf="@id/imgVerified"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -184,6 +184,24 @@
                 android:textSize="25dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginLeft="5dp"/>
+            <TextView
+                android:id="@+id/tv_lib"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_ptime1"
+                android:text="Library: "
+                android:textSize="25dp"
+                android:layout_marginTop="5dp"/>
+            <TextView
+                android:id="@+id/tv_lib2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_ptime2"
+                android:layout_toRightOf="@id/tv_lib"
+                android:text="Library: "
+                android:textSize="25dp"
+                android:layout_marginTop="5dp" />
+
 
             <ImageView
                 android:id="@+id/crossed"
