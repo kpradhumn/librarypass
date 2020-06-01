@@ -33,6 +33,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+import hotchemi.android.rate.AppRate;
 import mainFragments.ViewPagerAdapter;
 import studentAuth.Login;
 import studentAuth.updateUser;
@@ -77,6 +78,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         SharedPreferences sharedPreferences = getSharedPreferences("hostel_pref", MODE_PRIVATE);
         hostelName = sharedPreferences.getString("hostel", "");
 
+
+        AppRate.with(this)
+                .setInstallDays(1)
+                .setLaunchTimes(3)
+                .setRemindInterval(2)
+                .monitor();
+
+        AppRate.showRateDialogIfMeetsConditions(this);
 
     }
 
@@ -127,6 +136,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
             case R.id.nav_rate:
             {
+
                 break;
             }
             case R.id.nav_gallery:
