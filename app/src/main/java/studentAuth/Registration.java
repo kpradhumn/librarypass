@@ -7,9 +7,12 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,13 +28,17 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 import Models.mStudent;
 
-public class Registration extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+public class Registration extends AppCompatActivity  {
 
-    Spinner spStream;
+    ArrayAdapter<String> adapterMonthspinner,adapterMonthspinners;
+    ArrayList<String> spinnerMonthList;
+    Spinner spStream,spBranch;
     TextView tvName, tvRoll, tvContact, tvHoste, tvYear, tvStream, tvBranch, tvcnfpwd, tvpwd;
     EditText etName, etRoll, etContact, etHostel, etYear, etBranch, etpwd, etcnfpwd;
     Button btRegister;
@@ -50,15 +57,14 @@ public class Registration extends AppCompatActivity implements AdapterView.OnIte
         mauth = FirebaseAuth.getInstance();
         fstore = FirebaseFirestore.getInstance();
         loadingbar=new ProgressDialog(Registration.this);
-
-
+        tvBranch=findViewById(R.id.tvBranch);
         tvName = findViewById(R.id.tvName);
         tvRoll = findViewById(R.id.tvRoll);
         tvContact = findViewById(R.id.tvContact);
         tvHoste = findViewById(R.id.tvHostel);
         tvYear = findViewById(R.id.tvYear);
         tvStream = findViewById(R.id.tvStream);
-        tvBranch = findViewById(R.id.tvBranch);
+        spBranch = findViewById(R.id.Spbranch);
         tvcnfpwd = findViewById(R.id.tvcnfpwd);
         tvpwd = findViewById(R.id.tvpwd);
 
@@ -69,11 +75,15 @@ public class Registration extends AppCompatActivity implements AdapterView.OnIte
         etContact = findViewById(R.id.etContact);
         etHostel = findViewById(R.id.etHostel);
         etYear = findViewById(R.id.etYear);
-        etBranch = findViewById(R.id.etBranch);
 
         spStream = findViewById(R.id.spStream);
-        spStream.setOnItemSelectedListener(this);
         btRegister = findViewById(R.id.btRegister);
+        spinnerMonthList=new ArrayList<String>(Arrays.asList(getApplication().getResources().getStringArray(R.array.stream)));
+        adapterMonthspinner= new ArrayAdapter<String>(Registration.this,android.R.layout.simple_spinner_dropdown_item,spinnerMonthList);
+        spStream.setAdapter(adapterMonthspinner);
+        spinnerMonthList = new ArrayList<String>(Arrays.asList(getApplication().getResources().getStringArray(R.array.branch)));
+        adapterMonthspinners = new ArrayAdapter<String>(Registration.this, android.R.layout.simple_spinner_dropdown_item, spinnerMonthList);
+        spBranch.setAdapter(adapterMonthspinners);
 
 
 
@@ -86,7 +96,6 @@ public class Registration extends AppCompatActivity implements AdapterView.OnIte
                 conatct = etContact.getText().toString();
                 hostel = etHostel.getText().toString();
                 year = etYear.getText().toString();
-                branch = etBranch.getText().toString();
                 rollno = etRoll.getText().toString();
                 if (etName.getText().toString().trim().length() == 0)
                     etName.setError("Name is required");
@@ -111,12 +120,6 @@ public class Registration extends AppCompatActivity implements AdapterView.OnIte
                 }
                 if (etYear.getText().toString().trim().length() == 0) {
                     etYear.setError("Year is required");
-                    flag = 0;
-                }
-
-
-                if (etBranch.getText().toString().trim().length() == 0) {
-                    etBranch.setError("Branch is required");
                     flag = 0;
                 }
                 if (etpwd.getText().toString().trim().length() == 0) {
@@ -177,20 +180,47 @@ public class Registration extends AppCompatActivity implements AdapterView.OnIte
 
             }
         });
-    }
+        spBranch.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                branch= parent.getItemAtPosition(position).toString();
 
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        // On selecting a spinner item
-        stream = parent.getItemAtPosition(position).toString();
-        // Showing selected spinner item
-        Toast.makeText(parent.getContext(), "You selected: " + stream,Toast.LENGTH_LONG).show();
+            }
 
-    }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
 
-    public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+        spStream.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                stream = parent.getItemAtPosition(position).toString();
+                if(position>0) {
+                    if (stream.equals("B.Tech") || stream.equals("M.Tech")) {
+                        spBranch.setVisibility(View.VISIBLE);
+                        branch = spBranch.getItemAtPosition(position).toString();
 
-        ((TextView)spStream.getSelectedView()).setError("Stream is required");
+                    } else {
+                        Toast.makeText(getApplicationContext(), "value-->>" + stream, Toast.LENGTH_LONG).show();
+                        tvBranch.setVisibility(View.INVISIBLE);
+                        spBranch.setVisibility(View.INVISIBLE);
+                        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                        params.addRule(RelativeLayout.BELOW, R.id.spStream);
+                        tvpwd.setLayoutParams(params);
+                        branch = parent.getItemAtPosition(position).toString();
+                    }
 
+                }
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                ((TextView)spStream.getSelectedView()).setError("Stream is required");
+
+            }
+        });
     }
     private void updateuserinfo()
     {

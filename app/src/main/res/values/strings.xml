@@ -15,6 +15,26 @@
         <item>LAW</item>
         <item>Bio Tech</item>
 
+
+    </string-array>
+    <string-array name="branch">
+        <item>Choose Branch</item>
+        <item>Computer Science</item>
+        <item>Mechanical</item>
+        <item>Electrical</item>
+        <item>Civil</item>
+        <item>Electronics</item>
+        <item>Mechatronics</item>
+        <item>Aerospace</item>
+        <item>Chemical</item>
+        <item></item>
+    </string-array>
+    <string-array name="year">
+        <item>Select Year</item>
+        <item>1st</item>
+        <item>2nd</item>
+        <item>3rd</item>
+        <item>4th</item>
     </string-array>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>

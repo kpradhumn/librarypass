@@ -7,10 +7,12 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,9 +35,9 @@ import java.util.HashMap;
 
 import Models.mStudent;
 
-public class updateUser extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+public class updateUser extends AppCompatActivity{
 
-    Spinner spStream;
+    Spinner spStream,spBranch;
     TextView tvName, tvRoll, tvContact, tvHoste, tvYear, tvStream, tvBranch, tvcnfpwd, tvpwd;
     EditText etName, etRoll, etContact, etHostel, etYear, etBranch, etpwd, etcnfpwd;
     Button btRegister,btUpdate;
@@ -46,7 +48,7 @@ public class updateUser extends AppCompatActivity implements AdapterView.OnItemS
     private String currentuserid, name, conatct, hostel, year, branch, stream, rollno;
     Boolean existence = false;
     private mStudent mStudent = null;
-    ArrayAdapter<String> adapterMonthspinner;
+    ArrayAdapter<String> adapterMonthspinner,adapterMonthspinners;
     ArrayList<String> spinnerMonthList;
 
     @Override
@@ -75,16 +77,16 @@ public class updateUser extends AppCompatActivity implements AdapterView.OnItemS
         etContact = findViewById(R.id.etContact);
         etHostel = findViewById(R.id.etHostel);
         etYear = findViewById(R.id.etYear);
-        etBranch = findViewById(R.id.etBranch);
-
+        spBranch = findViewById(R.id.Spbranch);
         spStream = findViewById(R.id.spStream);
-        spStream.setOnItemSelectedListener(this);
         btRegister = findViewById(R.id.btRegister);
         btUpdate=findViewById(R.id.btupdate);
         spinnerMonthList=new ArrayList<String>(Arrays.asList(getApplication().getResources().getStringArray(R.array.stream)));
-        spinnerMonthList.add(0,"Select Stream");
         adapterMonthspinner= new ArrayAdapter<String>(updateUser.this,android.R.layout.simple_spinner_dropdown_item,spinnerMonthList);
         spStream.setAdapter(adapterMonthspinner);
+        spinnerMonthList = new ArrayList<String>(Arrays.asList(getApplication().getResources().getStringArray(R.array.branch)));
+        adapterMonthspinners = new ArrayAdapter<String>(updateUser.this, android.R.layout.simple_spinner_dropdown_item, spinnerMonthList);
+        spBranch.setAdapter(adapterMonthspinners);
 
         FirebaseUser mFirebaseUser = mauth.getCurrentUser();
         if(mFirebaseUser != null)
@@ -100,7 +102,6 @@ public class updateUser extends AppCompatActivity implements AdapterView.OnItemS
                 conatct = etContact.getText().toString();
                 hostel = etHostel.getText().toString();
                 year = etYear.getText().toString();
-                branch = etBranch.getText().toString();
                 rollno = etRoll.getText().toString();
                 if (etName.getText().toString().trim().length() == 0)
                     etName.setError("Name is required");
@@ -127,12 +128,6 @@ public class updateUser extends AppCompatActivity implements AdapterView.OnItemS
                     etYear.setError("Year is required");
                     flag = 0;
                 }
-
-
-                if (etBranch.getText().toString().trim().length() == 0) {
-                    etBranch.setError("Branch is required");
-                    flag = 0;
-                }
                 if (flag == 1)
 
                     updateuserinfo();
@@ -141,20 +136,47 @@ public class updateUser extends AppCompatActivity implements AdapterView.OnItemS
             }
         });
 
-    }
+        spBranch.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                branch= parent.getItemAtPosition(position).toString();
 
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        // On selecting a spinner item
-        stream = parent.getItemAtPosition(position).toString();
-        // Showing selected spinner item
-        Toast.makeText(parent.getContext(), "You selected: " + stream,Toast.LENGTH_LONG).show();
+            }
 
-    }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
 
-    public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+        spStream.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                stream = parent.getItemAtPosition(position).toString();
+                if(position>0) {
+                    if (stream.equals("B.Tech") || stream.equals("M.Tech")) {
+                        spBranch.setVisibility(View.VISIBLE);
+                        branch = spBranch.getItemAtPosition(position).toString();
 
-        ((TextView)spStream.getSelectedView()).setError("Stream is required");
+                    } else {
+                        Toast.makeText(getApplicationContext(), "value-->>" + stream, Toast.LENGTH_LONG).show();
+                        tvBranch.setVisibility(View.INVISIBLE);
+                        spBranch.setVisibility(View.INVISIBLE);
+                        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                        params.addRule(RelativeLayout.BELOW, R.id.spStream);
+                        tvpwd.setLayoutParams(params);
+                        branch = parent.getItemAtPosition(position).toString();
+                    }
 
+                }
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                ((TextView)spStream.getSelectedView()).setError("Stream is required");
+
+            }
+        });
     }
     private void Retriveinfo() {
         loadingbar.setTitle("Please Wait");
@@ -199,12 +221,21 @@ public class updateUser extends AppCompatActivity implements AdapterView.OnItemS
     private void setExistingData(Models.mStudent mStudent) {
         etName.setText(mStudent.getNm());
         etContact.setText(mStudent.getPhn());
-        etBranch.setText(mStudent.getBr());
+       // etBranch.setText(mStudent.getBr());
         //Toast.makeText(BuyeProfileCreation.this,mStudent.getStreet(),Toast.LENGTH_LONG).show();
         etHostel.setText(mStudent.getH());
         etRoll.setText(mStudent.getRoll());
         etYear.setText(mStudent.getYr());
         spStream.setSelection(adapterMonthspinner.getPosition(mStudent.getStrm()));
+        if(mStudent.getStrm().equals("B.Tech")||mStudent.getStrm().equals("M.Tech")) {
+            Toast.makeText(getApplicationContext(),"value-->>"+ mStudent.getBr(),Toast.LENGTH_LONG).show();
+            spBranch.setSelection(adapterMonthspinners.getPosition(mStudent.getBr()));
+        }
+        else {
+            Toast.makeText(getApplicationContext(),"value-->>"+ mStudent.getStrm(),Toast.LENGTH_LONG).show();
+            tvBranch.setVisibility(View.INVISIBLE);
+            spBranch.setVisibility(View.INVISIBLE);
+        }
         //spStream.setAdapter(mStudent.getStrm());
         loadingbar.dismiss();
 
