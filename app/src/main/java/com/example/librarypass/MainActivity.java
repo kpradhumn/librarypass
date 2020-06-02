@@ -145,6 +145,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 startActivity(Gallery_Intent);
                 break;
             }
+            case R.id.nav_aboutus:
+            {
+                Intent Gallery_Intent = new Intent(MainActivity.this, AboutUs.class);
+                startActivity(Gallery_Intent);
+                break;
+            }
         }
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
