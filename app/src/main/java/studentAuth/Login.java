@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.librarypass.ForgetPassword;
 import com.example.librarypass.MainActivity;
 import com.example.librarypass.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -70,7 +71,7 @@ public class Login extends AppCompatActivity {
             }
         });
         tvForgotpass.setOnClickListener(v -> {
-           // startActivity(new Intent(Login.this,forgetPwd.class));
+           startActivity(new Intent(Login.this, ForgetPassword.class));
             finish();
         });
 
