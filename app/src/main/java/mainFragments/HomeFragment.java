@@ -84,6 +84,7 @@ public class HomeFragment extends Fragment {
     private AlertDialog dialog;
     private Button btn_dgenrate_pass;
     private Spinner spLib;
+    private String libName;
     private android.app.AlertDialog.Builder alertdialogbuilder;
     private android.app.AlertDialog alertDialog;
     private LayoutInflater inflater;
@@ -442,7 +443,7 @@ public class HomeFragment extends Fragment {
         String currentdate = currentdateformat.format(calfordate.getTime());
         date.setText(currentdate);
         time.setText(mStudent.getTime());
-        libname.setText(selectedLib);
+        libname.setText(libName);
 
     }
 
@@ -516,12 +517,20 @@ public class HomeFragment extends Fragment {
         tv_ddate2.setText(currentdate);
         tv_dtime2.setText(currenttime);
         spinnerMonthList=new ArrayList<String>();
-        spinnerMonthList.add(mStudent.getBr()+"Lib");
-        spinnerMonthList.add("Centeral Lib");
+        if(mStudent.getBr().equals("Computer Science/IT"))
+            spinnerMonthList.add("Computer Science"+" Lib");
+        else
+        spinnerMonthList.add(mStudent.getBr()+" Lib");
+        spinnerMonthList.add("Central Lib");
         adapterLibspinner= new ArrayAdapter<String>(this.getActivity(),android.R.layout.simple_spinner_dropdown_item,spinnerMonthList);
         adapterLibspinner.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spLib.setAdapter(adapterLibspinner);
-        selectedLib=spLib.getSelectedItem().toString();
+        int pos=spLib.getSelectedItemPosition();
+        libName=spLib.getSelectedItem().toString();
+        if(pos==0)
+            selectedLib="Lib"+mStudent.getBr();
+        else
+            selectedLib="Central Lib";
 
     }
 
