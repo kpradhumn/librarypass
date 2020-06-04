@@ -28,12 +28,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:layout_editor_absoluteX="-100dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/useless"
         tools:layout_editor_absoluteY="-2dp">
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/useless2">
+            android:id="@+id/useless2"
+            android:layout_marginBottom="10dp">
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/hor_55"
                 android:layout_width="match_parent"
@@ -60,7 +63,8 @@
                 android:layout_height="30dp"
                 android:layout_marginTop="10dp"
                 android:src="@drawable/mail"
-                app:layout_constraintStart_toEndOf="@id/hor_55"
+                android:layout_marginLeft="70dp"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/aboutus_img1"
                 app:layout_constraintEnd_toStartOf="@id/aditi_mail"
                 />
@@ -70,11 +74,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
+
                 android:text="  : 1705478@kiit.ac.in"
                 android:textSize="22dp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toEndOf="@+id/mail1"
                 app:layout_constraintTop_toBottomOf="@+id/aboutus_img1"
+
                 tools:layout_editor_absoluteX="40dp" />
 
 
@@ -96,8 +102,11 @@
                 android:layout_height="30dp"
                 android:layout_marginTop="10dp"
                 android:src="@drawable/mail"
-                app:layout_constraintStart_toEndOf="@id/hor_55"
-                app:layout_constraintTop_toBottomOf="@+id/aboutus_img2" />
+                android:layout_marginLeft="70dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/aboutus_img2"
+                app:layout_constraintEnd_toStartOf="@id/pradhumn_mail"
+                />
 
             <TextView
                 android:id="@+id/pradhumn_mail"
@@ -109,6 +118,7 @@
                 android:textStyle="bold"
                 app:layout_constraintStart_toEndOf="@+id/mail2"
                 app:layout_constraintTop_toBottomOf="@+id/aboutus_img2"
+
                 tools:layout_editor_absoluteX="40dp" />
 
 
