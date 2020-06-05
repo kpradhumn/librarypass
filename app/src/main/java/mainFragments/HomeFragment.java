@@ -209,7 +209,7 @@ public class HomeFragment extends Fragment {
                         editor.apply();
                         char nameHostel[] = hostelName.toCharArray();
                         if (nameHostel[0] == 'q' || nameHostel[0] == 'Q') {
-                            if (finalhr >= 00 && finalhr <= 19) {
+                            if (finalhr >= 18 && finalhr <=19) {
                                 imgCancelled.setVisibility(View.VISIBLE);
                                 newpass.setVisibility(view.VISIBLE);
                                 pass_status.setText("GENERATE A NEW PASS");
@@ -318,7 +318,7 @@ public class HomeFragment extends Fragment {
         char nameHostel[] = hostelName.toCharArray();
        // Toast.makeText(getContext(), Arrays.toString(nameHostel), Toast.LENGTH_LONG).show();
         if (nameHostel[0] == 'q' || nameHostel[0] == 'Q') {
-            if (finalhr >= 00 && finalhr <= 19) {
+            if (finalhr >= 18 && finalhr <= 19) {
                 Log.d(TAG, "onclick: opening dialog");
                 createpoupdialog();
                 //fetchInfo();
