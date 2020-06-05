@@ -6,19 +6,6 @@
 
     <string-array name="stream">
         <item>Choose Stream</item>
-        <item>B.Tech</item>
-        <item>M.Tech</item>
-        <item>BCA</item>
-        <item>MCA</item>
-        <item>BBA</item>
-        <item>MBA</item>
-        <item>LAW</item>
-        <item>Bio Tech</item>
-
-
-    </string-array>
-    <string-array name="branch">
-        <item>Choose Branch</item>
         <item>CSIT</item>
         <item>Mechanical</item>
         <item>Electrical</item>
@@ -27,7 +14,14 @@
         <item>Mechatronics</item>
         <item>Aerospace</item>
         <item>Chemical</item>
-        <item></item>
+        <item>BCA</item>
+        <item>MCA</item>
+        <item>BBA</item>
+        <item>MBA</item>
+        <item>LAW</item>
+        <item>Bio Tech</item>
+
+
     </string-array>
     <string-array name="year">
         <item>Select Year</item>

@@ -58,14 +58,12 @@ public class Registration extends AppCompatActivity  {
         mauth = FirebaseAuth.getInstance();
         fstore = FirebaseFirestore.getInstance();
         loadingbar=new ProgressDialog(Registration.this);
-        tvBranch=findViewById(R.id.tvBranch);
         tvName = findViewById(R.id.tvName);
         tvRoll = findViewById(R.id.tvRoll);
         tvContact = findViewById(R.id.tvContact);
         tvHoste = findViewById(R.id.tvHostel);
         tvYear = findViewById(R.id.tvYear);
         tvStream = findViewById(R.id.tvStream);
-        spBranch = findViewById(R.id.Spbranch);
         tvcnfpwd = findViewById(R.id.tvcnfpwd);
         tvpwd = findViewById(R.id.tvpwd);
         etcnfpwd = findViewById(R.id.etcnfpwd);
@@ -80,9 +78,6 @@ public class Registration extends AppCompatActivity  {
         spinnerMonthList=new ArrayList<String>(Arrays.asList(getApplication().getResources().getStringArray(R.array.stream)));
         adapterMonthspinner= new ArrayAdapter<String>(Registration.this,android.R.layout.simple_spinner_dropdown_item,spinnerMonthList);
         spStream.setAdapter(adapterMonthspinner);
-        spinnerMonthList = new ArrayList<String>(Arrays.asList(getApplication().getResources().getStringArray(R.array.branch)));
-        adapterMonthspinners = new ArrayAdapter<String>(Registration.this, android.R.layout.simple_spinner_dropdown_item, spinnerMonthList);
-        spBranch.setAdapter(adapterMonthspinners);
         spinnerMonthList = new ArrayList<String>(Arrays.asList(getApplication().getResources().getStringArray(R.array.year)));
         adapteryears = new ArrayAdapter<String>(Registration.this, android.R.layout.simple_spinner_dropdown_item, spinnerMonthList);
         spyear.setAdapter(adapteryears);
@@ -97,20 +92,22 @@ public class Registration extends AppCompatActivity  {
             @Override
             public void onClick(View v) {
 
-                    int flag = 0;
+                    int flag = 1;
                     name = etName.getText().toString();
                     conatct = etContact.getText().toString();
                     rollno = etRoll.getText().toString();
                     hostel=spHostel.getSelectedItem().toString();
                     year=spyear.getSelectedItem().toString();
                     stream=spStream.getSelectedItem().toString();
-                    branch=spBranch.getSelectedItem().toString();
 
                     if (etName.getText().toString().trim().length() == 0)
-                        etName.setError("Name is required");
-                    else if (etRoll.getText().toString().trim().length() == 0) {
+                    { etName.setError("Name is required");
+                    return;}
+                     if (etRoll.getText().toString().trim().length() <7) {
                         etRoll.setError("Roll no. is required");
+                         Toast.makeText(getApplicationContext(),stream,Toast.LENGTH_LONG).show();
                         flag = 0;
+                        return;
                     } else {
                         roll = etRoll.getText().toString();
                         roll = roll.concat("@kiit.ac.in");
@@ -119,37 +116,40 @@ public class Registration extends AppCompatActivity  {
                     if(hostel.length()==0 || hostel.equals("Select Hostel")){
                     ((TextView)spHostel.getSelectedView()).setError("Hostel name is required");
                     flag=0;
+                    return;
                     }
                     if(year.length()==0 || year.equals("Select Year")){
                     ((TextView)spyear.getSelectedView()).setError("Year is required");
                     flag=0;
+                    return;
                     }
                     if(stream.length()==0 || stream.equals("Choose Stream")){
                     ((TextView)spStream.getSelectedView()).setError("Stream is required");
                     flag=0;
+                    return;
                     }
-                    if(branch.length()==0 || branch.equals("Choose Branch")){
-                    ((TextView)spBranch.getSelectedView()).setError("Branch is required");
-                    flag=0;
-                    }
+
 
 
 
                 if (etContact.getText().toString().trim().length() == 0) {
                         etContact.setError("Contact No. is required");
                         flag = 0;
+                        return;
                     }
                     if (etContact.getText().toString().trim().length() != 10) {
                         etContact.setError("Enter correct contact no.");
                         flag = 0;
+                        return;
                     }
                     if (etpwd.getText().toString().trim().length() == 0) {
                         etpwd.setError("Please set password");
                         flag = 0;
+                        return;
                     }
                     if (etpwd.getText().toString().equals(etcnfpwd.getText().toString())) {
                         if (etcnfpwd.getText().toString().isEmpty())
-                            flag = 0;
+                        {flag = 0;return;}
                         else {
                             setpwd = etcnfpwd.getText().toString();
 
@@ -159,6 +159,7 @@ public class Registration extends AppCompatActivity  {
                     } else {
                         etcnfpwd.setError("Password does not match");
                         flag = 0;
+                        return;
 
                     }
                     if (flag == 1) {
@@ -219,20 +220,7 @@ public class Registration extends AppCompatActivity  {
 
             }
         });
-        spBranch.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-                    branch= parent.getItemAtPosition(position).toString();
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                ((TextView)spBranch.getSelectedView()).setError("Stream is required");
-
-            }
-        });
         spyear.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -249,21 +237,7 @@ public class Registration extends AppCompatActivity  {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 stream = parent.getItemAtPosition(position).toString();
-                if(position>0) {
-                    if (stream.equals("B.Tech") || stream.equals("M.Tech")) {
-                        spBranch.setVisibility(View.VISIBLE);
-                        branch = spBranch.getItemAtPosition(position).toString();
 
-                    } else {
-                        tvBranch.setVisibility(View.INVISIBLE);
-                        spBranch.setVisibility(View.INVISIBLE);
-                        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                        params.addRule(RelativeLayout.BELOW, R.id.spStream);
-                        tvpwd.setLayoutParams(params);
-                        branch = parent.getItemAtPosition(position).toString();
-                    }
-
-                }
 
             }
 
@@ -282,8 +256,7 @@ public class Registration extends AppCompatActivity  {
         profilemap.put("nm",name);
         profilemap.put("roll",rollno);
         profilemap.put("yr",year);
-        profilemap.put("strm",stream);
-        profilemap.put("br",branch);
+        profilemap.put("course",stream);
         profilemap.put("h",hostel);
         profilemap.put("phn",conatct);
 

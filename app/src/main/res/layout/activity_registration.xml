@@ -139,7 +139,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/etYear"
-                android:text="Stream"
+                android:text="Enrolled Course/Stream"
                 android:textSize="20dp"
                 android:layout_marginLeft="50dp"
                 android:layout_marginTop="10dp"
@@ -158,32 +158,11 @@
                 android:background="@drawable/edit_text_border"
                 />
 
-
-            <TextView
-                android:id="@+id/tvBranch"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/spStream"
-                android:text="Branch"
-                android:textSize="20dp"
-                android:layout_marginLeft="50dp"
-                android:layout_marginTop="10dp"
-                android:textColor="@color/kiit_green"/>
-           <Spinner android:id="@+id/Spbranch"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_below="@id/tvBranch"
-            android:layout_marginLeft="50dp"
-            android:layout_marginTop="5dp"
-            android:paddingLeft="10dp"
-            android:layout_centerHorizontal="true"
-            android:autofillHints="Choose branch"
-            android:background="@drawable/edit_text_border"/>
             <TextView
                 android:id="@+id/tvpwd"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/Spbranch"
+                android:layout_below="@id/spStream"
                 android:text="Set Password"
                 android:textSize="20dp"
                 android:layout_marginLeft="50dp"
@@ -240,7 +219,7 @@
                 android:id="@+id/btupdate"
                 android:layout_width="match_parent"
                 android:layout_height="35dp"
-                android:layout_below="@id/Spbranch"
+                android:layout_below="@id/spStream"
                 android:layout_marginTop="10dp"
                 android:layout_centerHorizontal="true"
                 android:text="Update"

@@ -71,7 +71,7 @@ public class HomeFragment extends Fragment {
     int finalhr = Integer.parseInt(currenttimeformatnew.format(calfortimenew.getTime()));
     static final int MY_REQUEST_CODE = 1000;
     ArrayAdapter<String> adapterLibspinner;
-    ArrayList<String> spinnerMonthList;
+    ArrayList<String> SpinnerLibList;
     private TextView pass_genrate, pass_status;
     private CardView pass_container;
     private ImageView imgVerified, imgCancelled, scannerImg, returnScan;
@@ -512,29 +512,46 @@ public class HomeFragment extends Fragment {
     }
 
     private void setExistingDatatoDialog(Models.mStudent mStudent) {
+        Calendar calfordate = Calendar.getInstance();
+        SimpleDateFormat currentdateformat = new SimpleDateFormat(" dd MMM,yyyy");
+        String currentdate = currentdateformat.format(calfordate.getTime());
+        Calendar calfortime = Calendar.getInstance();
+        SimpleDateFormat currenttimeformat = new SimpleDateFormat("hh:mm a");
+        String currenttime = currenttimeformat.format(calfortime.getTime());
         newpass.setVisibility(View.INVISIBLE);
         imgCancelled.setVisibility(View.INVISIBLE);
         tv_dname2.setText(mStudent.getNm());
         tv_droll2.setText(mStudent.getRoll());
         tv_ddate2.setText(currentdate);
         tv_dtime2.setText(currenttime);
-        spinnerMonthList=new ArrayList<String>();
-        spinnerMonthList.add(mStudent.getBr()+" Lib");
-        spinnerMonthList.add("Central Lib");
-        adapterLibspinner= new ArrayAdapter<String>(this.getActivity(),android.R.layout.simple_spinner_dropdown_item,spinnerMonthList);
+        SpinnerLibList=new ArrayList<String>();
+        SpinnerLibList.add(0,mStudent.getCourse()+" Lib");
+        SpinnerLibList.add(1,"Central Lib");
+        adapterLibspinner= new ArrayAdapter<String>(this.getActivity(),android.R.layout.simple_spinner_dropdown_item,SpinnerLibList);
         adapterLibspinner.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spLib.setAdapter(adapterLibspinner);
-        int pos=spLib.getSelectedItemPosition();
-        libName=spLib.getSelectedItem().toString();
-        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("Library Name", MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("lib", libName);
-        editor.apply();
-        if(pos==0)
-            selectedLib="Lib"+mStudent.getBr();
-        else
-            selectedLib="Central Lib";
 
+        spLib.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                libName= parent.getItemAtPosition(position).toString();
+                SharedPreferences sharedPreferences = getActivity().getSharedPreferences("Library Name", MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString("lib", libName);
+                editor.apply();
+                if(position==0)
+                    selectedLib="Lib"+mStudent.getCourse();
+                else if(position==1)
+                    selectedLib="Central Lib";
+
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                ((TextView)spLib.getSelectedView()).setError("Year is required");
+            }
+        });
     }
 
     private void setDataToDb() {
@@ -558,7 +575,7 @@ public class HomeFragment extends Fragment {
         profilemap.put("nm", mStudent.getNm());
         profilemap.put("roll", mStudent.getRoll());
         profilemap.put("yr", mStudent.getYr());
-        profilemap.put("strm", mStudent.getStrm());
+        profilemap.put("course", mStudent.getCourse());
         profilemap.put("phn", mStudent.getPhn());
         profilemap.put("date", currentdate);
         profilemap.put("Library",selectedLib);

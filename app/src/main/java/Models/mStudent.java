@@ -4,8 +4,7 @@ public class mStudent {
     String nm;
     String h;
     String roll;
-    String br;
-    String strm;
+    String course;
     String yr;
     String phn;
     String time;
@@ -26,12 +25,9 @@ public class mStudent {
         return roll;
     }
 
-    public String getBr() {
-        return br;
-    }
 
-    public String getStrm() {
-        return strm;
+    public String getCourse() {
+        return course;
     }
 
     public String getYr() {
