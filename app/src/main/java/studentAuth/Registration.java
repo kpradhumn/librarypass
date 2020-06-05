@@ -36,12 +36,13 @@ import Models.mStudent;
 
 public class Registration extends AppCompatActivity  {
 
-    ArrayAdapter<String> adapterMonthspinner,adapterMonthspinners,adapteryears;
+    ArrayAdapter<String> adapterMonthspinner,adapterMonthspinners,adapteryears,adapterHostelSpinner;
     ArrayList<String> spinnerMonthList;
-    Spinner spStream,spBranch,spyear;
+    Spinner spStream,spBranch,spyear,spHostel;
     TextView tvName, tvRoll, tvContact, tvHoste, tvYear, tvStream, tvBranch, tvcnfpwd, tvpwd;
-    EditText etName, etRoll, etContact, etHostel, etpwd, etcnfpwd;
+    EditText etName, etRoll, etContact, etpwd, etcnfpwd;
     Button btRegister;
+    private int status=0;
     private FirebaseAuth mauth;
     private FirebaseFirestore fstore;
     private ProgressDialog loadingbar;
@@ -72,7 +73,7 @@ public class Registration extends AppCompatActivity  {
         etName = findViewById(R.id.etName);
         etRoll = findViewById(R.id.etRoll);
         etContact = findViewById(R.id.etContact);
-        etHostel = findViewById(R.id.etHostel);
+        spHostel = findViewById(R.id.etHostel);
         spyear = findViewById(R.id.etYear);
         spStream = findViewById(R.id.spStream);
         btRegister = findViewById(R.id.btRegister);
@@ -85,6 +86,9 @@ public class Registration extends AppCompatActivity  {
         spinnerMonthList = new ArrayList<String>(Arrays.asList(getApplication().getResources().getStringArray(R.array.year)));
         adapteryears = new ArrayAdapter<String>(Registration.this, android.R.layout.simple_spinner_dropdown_item, spinnerMonthList);
         spyear.setAdapter(adapteryears);
+        spinnerMonthList = new ArrayList<String>(Arrays.asList(getApplication().getResources().getStringArray(R.array.hostel)));
+        adapterHostelSpinner = new ArrayAdapter<String>(Registration.this, android.R.layout.simple_spinner_dropdown_item, spinnerMonthList);
+        spHostel.setAdapter(adapterHostelSpinner);
 
 
 
@@ -92,55 +96,56 @@ public class Registration extends AppCompatActivity  {
         btRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int flag;
-                name = etName.getText().toString();
-                conatct = etContact.getText().toString();
-                hostel = etHostel.getText().toString();
-                rollno = etRoll.getText().toString();
-                if (etName.getText().toString().trim().length() == 0)
-                    etName.setError("Name is required");
-                else if (etRoll.getText().toString().trim().length() == 0)
-                    etRoll.setError("Roll no. is required");
-                else {
-                    roll = etRoll.getText().toString();
-                    roll = roll.concat("@kiit.ac.in");
-                }
-                // Toast.makeText(registration.this,roll,Toast.LENGTH_LONG).show();
-                if (etContact.getText().toString().trim().length() == 0) {
-                    etContact.setError("Contact No. is required");
-                    flag = 0;
-                }
-                if (etContact.getText().toString().trim().length() != 10) {
-                    etContact.setError("Enter correct contact no.");
-                    flag = 0;
-                }
-                if (etHostel.getText().toString().trim().length() == 0) {
-                    etHostel.setError("Hostel namae is required");
-                    flag = 0;
-                }
-                if (etpwd.getText().toString().trim().length() == 0) {
-                    etpwd.setError("Please set password");
-                    flag = 0;
-                }
-                if (etpwd.getText().toString().equals(etcnfpwd.getText().toString())) {
-                    setpwd = etcnfpwd.getText().toString();
 
-                    flag = 1;
+                    int flag = 0;
+                    name = etName.getText().toString();
+                    conatct = etContact.getText().toString();
+                    rollno = etRoll.getText().toString();
+                    if (etName.getText().toString().trim().length() == 0)
+                        etName.setError("Name is required");
+                    else if (etRoll.getText().toString().trim().length() == 0) {
+                        etRoll.setError("Roll no. is required");
+                        flag = 0;
+                    } else {
+                        roll = etRoll.getText().toString();
+                        roll = roll.concat("@kiit.ac.in");
+                    }
+                    // Toast.makeText(registration.this,roll,Toast.LENGTH_LONG).show();
+                    if (etContact.getText().toString().trim().length() == 0) {
+                        etContact.setError("Contact No. is required");
+                        flag = 0;
+                    }
+                    if (etContact.getText().toString().trim().length() != 10) {
+                        etContact.setError("Enter correct contact no.");
+                        flag = 0;
+                    }
+                    if (etpwd.getText().toString().trim().length() == 0) {
+                        etpwd.setError("Please set password");
+                        flag = 0;
+                    }
+                    if (etpwd.getText().toString().equals(etcnfpwd.getText().toString())) {
+                        if (etcnfpwd.getText().toString().isEmpty())
+                            flag = 0;
+                        else {
+                            setpwd = etcnfpwd.getText().toString();
 
-                } else {
-                    etcnfpwd.setError("Password does not match");
-                    flag = 0;
+                            flag = 1;
+                        }
 
+                    } else {
+                        etcnfpwd.setError("Password does not match");
+                        flag = 0;
+
+                    }
+                    if (flag == 1) {
+                        createaccunt(roll, setpwd);
+                    }
                 }
-                if (flag == 1)
-
-                    createaccunt(roll, setpwd);
-
-
-            }
         });
 
+
     }
+
 
 
     private void createaccunt(String roll, String setpwd) {
@@ -176,10 +181,25 @@ public class Registration extends AppCompatActivity  {
 
             }
         });
+        spHostel.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                    hostel= parent.getItemAtPosition(position).toString();
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                ((TextView)spHostel.getSelectedView()).setError("Hostel Name is required");
+
+            }
+        });
         spBranch.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                branch= parent.getItemAtPosition(position).toString();
+
+                    branch= parent.getItemAtPosition(position).toString();
 
             }
 
@@ -192,14 +212,13 @@ public class Registration extends AppCompatActivity  {
         spyear.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                year= parent.getItemAtPosition(position).toString();
+                    year= parent.getItemAtPosition(position).toString();
 
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
                 ((TextView)spyear.getSelectedView()).setError("Year is required");
-
             }
         });
         spStream.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -227,7 +246,6 @@ public class Registration extends AppCompatActivity  {
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
                 ((TextView)spStream.getSelectedView()).setError("Stream is required");
-
             }
         });
     }

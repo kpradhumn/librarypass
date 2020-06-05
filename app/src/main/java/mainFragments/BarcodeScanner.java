@@ -119,7 +119,7 @@ public class BarcodeScanner extends AppCompatActivity {
                                 Calendar calfortime = Calendar.getInstance();
                                 SimpleDateFormat currenttimeformat = new SimpleDateFormat("hh:mm a");
                                 String currenttime = currenttimeformat.format(calfortime.getTime());
-                                fstore.collection("QrCodes").document("lib15").get().addOnSuccessListener(documentSnapshot ->
+                                fstore.collection("QrCodes").document(libName).get().addOnSuccessListener(documentSnapshot ->
                                 {
                                     code = documentSnapshot.getString("qr");
                                     checkValueatVerification(qrCode);

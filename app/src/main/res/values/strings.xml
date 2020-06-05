@@ -36,6 +36,22 @@
         <item>3rd</item>
         <item>4th</item>
     </string-array>
+    <string-array name="hostel">
+        <item>Select Hostel</item>
+        <item>qc01</item>
+        <item>qc02</item>
+        <item>qc03</item>
+        <item>qc04</item>
+        <item>qc05</item>
+        <item>kp01</item>
+        <item>kp02</item>
+        <item>kp03</item>
+        <item>kp04</item>
+        <item>kp05</item>
+
+
+
+    </string-array>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
