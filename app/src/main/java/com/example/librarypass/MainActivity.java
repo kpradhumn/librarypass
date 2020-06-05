@@ -38,6 +38,8 @@ import mainFragments.ViewPagerAdapter;
 import studentAuth.Login;
 import studentAuth.updateUser;
 
+import static java.security.AccessController.getContext;
+
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private Toolbar mtoolbar;
     private ViewPager mviewpager;
@@ -124,8 +126,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             }
             case R.id.nav_guidlines: {
-                Intent Guideline_Intent = new Intent(MainActivity.this, Guideline.class);
-                startActivity(Guideline_Intent);
+                new AlertDialog.Builder(this).setTitle("Guidlines").setMessage(Html.fromHtml(" <b>Read the instructions carefully before genrating the pass.</b><br>" +
+                        "<br> Pass will be generated between 6:00pm to 7:00pm for girls and 6:00pm to 8:00pm for boys.<br><br> Genrate the pass between the given time slot only.<br>" +
+                        " <br>You have to report the respective library on the time as per Library rules otherwise you will be marked as absent and appropriate action will be taken on you by the institution.<br>\n" +
+                        " <br> Try not to cancel the pass if not necessary.<br> \n" +
+                        " <br>Scan the qr code offered by library officials just after reaching the library.<br>\n" +
+                        " <br>You will not be allowed to <b>login/logout</b> from your device before the pass is returned to Hostel.<br>\n" +
+                        " <br>Before leaving the library always consult with the library officials present there.<br>\n" +
+                        "<br> After you reach the hostel ,scan the qr code provided by the hostel officials to return your pass."))
+                        .setPositiveButton("Sure", null).show();
                 break;
             }
             case R.id.nav_quspaper: {

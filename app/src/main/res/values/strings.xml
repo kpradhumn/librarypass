@@ -19,7 +19,7 @@
     </string-array>
     <string-array name="branch">
         <item>Choose Branch</item>
-        <item>Computer Science/IT</item>
+        <item>CSIT</item>
         <item>Mechanical</item>
         <item>Electrical</item>
         <item>Civil</item>
