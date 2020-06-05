@@ -52,6 +52,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 
+import Models.mStudent;
 import studentAuth.Login;
 import studentAuth.Registration;
 
@@ -142,6 +143,7 @@ public class HomeFragment extends Fragment {
                         Intent intent = new Intent(getContext(), BarcodeScanner.class);
                         intent.putExtra("task", "verification");
                         intent.putExtra("hostel", hostelName);
+                        intent.putExtra("libName",selectedLib);
                         // Toast.makeText(getContext(),hostelName,Toast.LENGTH_LONG).show();
                         startActivity(intent);
 
@@ -160,6 +162,7 @@ public class HomeFragment extends Fragment {
                         Intent intent = new Intent(getContext(), BarcodeScanner.class);
                         intent.putExtra("task", "return");
                         intent.putExtra("hostel", hostelName);
+                        intent.putExtra("libName",selectedLib);
                         //Toast.makeText(getContext(),hostelName,Toast.LENGTH_LONG).show();
                         startActivity(intent);
                         onResume();
@@ -409,19 +412,18 @@ public class HomeFragment extends Fragment {
                         } else if (status.equals("0") && statuslib.equals("1")) {
                             pass_status.setText("Pass Verified");
                             imgVerified.setVisibility(View.VISIBLE);
-                            cancel_pass.setVisibility(View.VISIBLE);
+                            cancel_pass.setVisibility(View.INVISIBLE);
                             pass_genrate.setVisibility(View.INVISIBLE);
                             pass_container.setVisibility(View.VISIBLE);
                         } else if (status.equals("0")) {
                             pass_status.setText("Pass Generated");
-
                             cancel_pass.setVisibility(View.VISIBLE);
                             pass_genrate.setVisibility(View.INVISIBLE);
                             pass_container.setVisibility(View.VISIBLE);
                         }
 
                         mStudent = document.toObject(Models.mStudent.class);
-                        setExistingData(mStudent);
+                        setExistingData(mStudent,document.getString("Library"));
                     }
                     //setLayoutWidgets(mBuyerPrsetExistingData(mStudent);
                     else {
@@ -435,7 +437,7 @@ public class HomeFragment extends Fragment {
         });
     }
 
-    private void setExistingData(Models.mStudent mStudent) {
+    private void setExistingData(Models.mStudent mStudent, String library) {
         name.setText(mStudent.getNm());
         roll.setText(mStudent.getRoll());
         Calendar calfordate = Calendar.getInstance();
@@ -443,7 +445,7 @@ public class HomeFragment extends Fragment {
         String currentdate = currentdateformat.format(calfordate.getTime());
         date.setText(currentdate);
         time.setText(mStudent.getTime());
-        libname.setText(libName);
+        libname.setText(library);
 
     }
 
@@ -517,9 +519,6 @@ public class HomeFragment extends Fragment {
         tv_ddate2.setText(currentdate);
         tv_dtime2.setText(currenttime);
         spinnerMonthList=new ArrayList<String>();
-        if(mStudent.getBr().equals("Computer Science/IT"))
-            spinnerMonthList.add("Computer Science"+" Lib");
-        else
         spinnerMonthList.add(mStudent.getBr()+" Lib");
         spinnerMonthList.add("Central Lib");
         adapterLibspinner= new ArrayAdapter<String>(this.getActivity(),android.R.layout.simple_spinner_dropdown_item,spinnerMonthList);
@@ -527,6 +526,10 @@ public class HomeFragment extends Fragment {
         spLib.setAdapter(adapterLibspinner);
         int pos=spLib.getSelectedItemPosition();
         libName=spLib.getSelectedItem().toString();
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("Library Name", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("lib", libName);
+        editor.apply();
         if(pos==0)
             selectedLib="Lib"+mStudent.getBr();
         else
@@ -558,6 +561,7 @@ public class HomeFragment extends Fragment {
         profilemap.put("strm", mStudent.getStrm());
         profilemap.put("phn", mStudent.getPhn());
         profilemap.put("date", currentdate);
+        profilemap.put("Library",selectedLib);
         profilemap.put("time", currenttime);
         profilemap.put("status", "0");
         profilemap.put("libStatus", "0");
@@ -572,7 +576,7 @@ public class HomeFragment extends Fragment {
         });
         profilemap.put("hostel", mStudent.getH());
 
-        DocumentReference documentReferenceLib = fstore.collection(selectedLib).document(uid);
+        DocumentReference documentReferenceLib = fstore.collection("Library").document(selectedLib).collection("studentList").document(uid);
         documentReferenceLib.set(profilemap).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {

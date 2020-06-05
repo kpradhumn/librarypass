@@ -42,8 +42,12 @@ public class BarcodeScanner extends AppCompatActivity {
     SurfaceView surfaceView;
     CameraSource cameraSource;
     TextView textView;
-    String code;
+    public String code,Hostelcode;
     FirebaseFirestore fstore;
+    String day,uid,value,hostel,libName,currenttime;
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
+
     BarcodeDetector barcodeDetector;
     public static  final String Shared_pref="sharedPrefs";
     static int i;
@@ -54,6 +58,14 @@ public class BarcodeScanner extends AppCompatActivity {
         surfaceView = (SurfaceView) findViewById(R.id.camerapreview);
         textView = findViewById(R.id.textview);
         fstore = FirebaseFirestore.getInstance();
+        String currentuserid=FirebaseAuth.getInstance().getCurrentUser().getUid();
+        Calendar calfordate = Calendar.getInstance();
+        SimpleDateFormat dayFormat = new SimpleDateFormat("dd");
+        day = dayFormat.format(calfordate.getTime());
+        uid=day.concat(currentuserid);
+        value = getIntent().getExtras().getString("task");
+        hostel=getIntent().getExtras().getString("hostel");
+        libName=getIntent().getExtras().getString("libName");
 
         barcodeDetector = new BarcodeDetector.Builder(this).setBarcodeFormats(Barcode.QR_CODE).build();
         cameraSource = new CameraSource.Builder(this, barcodeDetector).
@@ -97,89 +109,33 @@ public class BarcodeScanner extends AppCompatActivity {
                     textView.post(new Runnable() {
                         @Override
                         public void run() {
-                            String currentuserid=FirebaseAuth.getInstance().getCurrentUser().getUid();
-                            Calendar calfordate = Calendar.getInstance();
-                            SimpleDateFormat dayFormat = new SimpleDateFormat("dd");
-                            String day = dayFormat.format(calfordate.getTime());
-                            String uid=day.concat(currentuserid);
-                            String value = getIntent().getExtras().getString("task");
-                            String hostel=getIntent().getExtras().getString("hostel");
+
+
                             if(value.equals("verification")) {
-                                SharedPreferences sharedPreferences = getSharedPreferences("pass"+day, MODE_PRIVATE);
+                                SharedPreferences sharedPreferences = getSharedPreferences("pass" + day, MODE_PRIVATE);
                                 SharedPreferences.Editor editor = sharedPreferences.edit();
                                 editor.putString("status", "1");
                                 editor.apply();
                                 Calendar calfortime = Calendar.getInstance();
                                 SimpleDateFormat currenttimeformat = new SimpleDateFormat("hh:mm a");
                                 String currenttime = currenttimeformat.format(calfortime.getTime());
-                                fstore.collection("Hostel").document(hostel).collection("QrCodes").document("lib15").get().addOnSuccessListener(documentSnapshot ->
+                                fstore.collection("QrCodes").document("lib15").get().addOnSuccessListener(documentSnapshot ->
                                 {
-                                     code=documentSnapshot.getString("qr");
+                                    code = documentSnapshot.getString("qr");
+                                    checkValueatVerification(qrCode);
 
                                 });
-                                if (code.equals(qrCode.valueAt(0).displayValue)) {
-                                    Vibrator vibrator = (Vibrator) getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
-                                    vibrator.vibrate(500);
-                                    fstore.collection("Library")
-                                            .document(uid)
-                                            .update("status", "1");
-                                    fstore.collection("Hostel").document(hostel).collection("studentList").document(uid)
-                                            .update("libStatus","1");
-                                    sharedPreferences =getSharedPreferences("ver", MODE_PRIVATE);
-                                    editor = sharedPreferences.edit();
-                                    editor.putString("time",currenttime);
-                                    editor.apply();
-                                    editor.commit();
-                                    Intent intent = new Intent(BarcodeScanner.this, MainActivity.class);
-                                    startActivity(intent);
-                                    finish();
-
-                                }
-                                else
-                                {
-                                    Vibrator vibrator = (Vibrator) getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
-                                    vibrator.vibrate(1000);
-                                    textView.setText("Scanning error!! Please Scan again!!");
-                                }
                             }
+
                             else if(value.equals("return")) {
-                                fstore.collection("Hostel").document(hostel).collection("QrCodes").document("lib15").get().addOnSuccessListener(documentSnapshot ->
+                                fstore.collection("QrCodes").document(hostel).get().addOnSuccessListener(documentSnapshot ->
                                 {
-                                    code=documentSnapshot.getString("qr");
+                                    Hostelcode=documentSnapshot.getString("qr");
+                                    //Toast.makeText(getApplicationContext(),hostel,Toast.LENGTH_LONG).show();
+                                    checkValueatReturn(qrCode);
 
                                 });
-                                SharedPreferences sharedPreference = getSharedPreferences("pass"+day, MODE_PRIVATE);
-                                SharedPreferences.Editor editors = sharedPreference.edit();
-                                editors.putString("status", "2");
-                                editors.commit();
-                                Calendar calfortime = Calendar.getInstance();
-                                SimpleDateFormat currenttimeformat = new SimpleDateFormat("hh:mm a");
-                                String currenttime = currenttimeformat.format(calfortime.getTime());
-                                if (code.equals(qrCode.valueAt(0).displayValue)) {
-                                    Vibrator vibrator = (Vibrator) getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
-                                    vibrator.vibrate(500);
-                                    fstore.collection("Hostel").document(hostel).collection("studentList").document(uid)
-                                            .update("status","1");
-                                    SharedPreferences sharedPreferences = getSharedPreferences("hostel_return", MODE_PRIVATE);
-                                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                                    editor.putString("return", "unread");
-                                    editor.apply();
-                                    sharedPreferences =getSharedPreferences("ret", MODE_PRIVATE);
-                                    editor = sharedPreferences.edit();
-                                    editor.putString("time",currenttime);
-                                    editor.apply();
-                                    editor.commit();
-                                    Intent intent = new Intent(BarcodeScanner.this, MainActivity.class);
-                                    startActivity(intent);
-                                    finish();
 
-                                }
-                                else
-                                {
-                                    Vibrator vibrator = (Vibrator) getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
-                                    vibrator.vibrate(1000);
-                                    textView.setText("Scanning error!! Please Scan again!!");
-                                }
                             }
                         }
                     });
@@ -190,4 +146,66 @@ public class BarcodeScanner extends AppCompatActivity {
 
 
     }
-}
+
+    private void checkValueatReturn(SparseArray<Barcode> qrCode) {
+        Calendar calfortime = Calendar.getInstance();
+        SimpleDateFormat currenttimeformat = new SimpleDateFormat("hh:mm a");
+        String currenttime = currenttimeformat.format(calfortime.getTime());
+        if (Hostelcode.equals(qrCode.valueAt(0).displayValue)) {
+            Vibrator vibrator = (Vibrator) getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
+            vibrator.vibrate(500);
+            SharedPreferences sharedPreference = getSharedPreferences("pass"+day, MODE_PRIVATE);
+            SharedPreferences.Editor editors = sharedPreference.edit();
+            editors.putString("status", "2");
+            editors.commit();
+            fstore.collection("Hostel").document(hostel).collection("studentList").document(uid)
+                    .update("status","1");
+            SharedPreferences sharedPreferences = getSharedPreferences("hostel_return", MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString("return", "unread");
+            editor.apply();
+            sharedPreferences =getSharedPreferences("ret", MODE_PRIVATE);
+            editor = sharedPreferences.edit();
+            editor.putString("time",currenttime);
+            editor.apply();
+            editor.commit();
+            Intent intent = new Intent(BarcodeScanner.this, MainActivity.class);
+            startActivity(intent);
+            finish();
+
+        }
+        else
+        {
+            Vibrator vibrator = (Vibrator) getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
+            vibrator.vibrate(1000);
+            textView.setText("Scanning error!! Please Scan again!!");
+        }
+    }
+
+
+    private void checkValueatVerification(SparseArray<Barcode> qrCode) {
+                if (code.equals((qrCode.valueAt(0).displayValue))) {
+                    Vibrator vibrator = (Vibrator) getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
+                    vibrator.vibrate(500);
+                    fstore.collection("Library").document(libName).collection("studentList").document(uid)
+                            .update("status", "1");
+                    fstore.collection("Hostel").document(hostel).collection("studentList").document(uid)
+                            .update("libStatus", "1");
+                    sharedPreferences = getSharedPreferences("ver", MODE_PRIVATE);
+                    editor = sharedPreferences.edit();
+                    editor.putString("time", currenttime);
+                    editor.apply();
+                    editor.commit();
+                    Intent intent = new Intent(BarcodeScanner.this, MainActivity.class);
+                    startActivity(intent);
+                    finish();
+
+                } else {
+                    Vibrator vibrator = (Vibrator) getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
+                    vibrator.vibrate(1000);
+                    textView.setText("Scanning error!! Please Scan again!!");
+                }
+            }
+
+
+    }
