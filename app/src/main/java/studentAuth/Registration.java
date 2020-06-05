@@ -101,6 +101,11 @@ public class Registration extends AppCompatActivity  {
                     name = etName.getText().toString();
                     conatct = etContact.getText().toString();
                     rollno = etRoll.getText().toString();
+                    hostel=spHostel.getSelectedItem().toString();
+                    year=spyear.getSelectedItem().toString();
+                    stream=spStream.getSelectedItem().toString();
+                    branch=spBranch.getSelectedItem().toString();
+
                     if (etName.getText().toString().trim().length() == 0)
                         etName.setError("Name is required");
                     else if (etRoll.getText().toString().trim().length() == 0) {
@@ -111,7 +116,26 @@ public class Registration extends AppCompatActivity  {
                         roll = roll.concat("@kiit.ac.in");
                     }
                     // Toast.makeText(registration.this,roll,Toast.LENGTH_LONG).show();
-                    if (etContact.getText().toString().trim().length() == 0) {
+                    if(hostel.length()==0 || hostel.equals("Select Hostel")){
+                    ((TextView)spHostel.getSelectedView()).setError("Hostel name is required");
+                    flag=0;
+                    }
+                    if(year.length()==0 || year.equals("Select Year")){
+                    ((TextView)spyear.getSelectedView()).setError("Year is required");
+                    flag=0;
+                    }
+                    if(stream.length()==0 || stream.equals("Choose Stream")){
+                    ((TextView)spStream.getSelectedView()).setError("Stream is required");
+                    flag=0;
+                    }
+                    if(branch.length()==0 || branch.equals("Choose Branch")){
+                    ((TextView)spBranch.getSelectedView()).setError("Branch is required");
+                    flag=0;
+                    }
+
+
+
+                if (etContact.getText().toString().trim().length() == 0) {
                         etContact.setError("Contact No. is required");
                         flag = 0;
                     }
