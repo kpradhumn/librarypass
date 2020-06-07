@@ -151,8 +151,8 @@ public class BarcodeScanner extends AppCompatActivity {
         Calendar calfortime = Calendar.getInstance();
         SimpleDateFormat currenttimeformat = new SimpleDateFormat("hh:mm a");
         String currenttime = currenttimeformat.format(calfortime.getTime());
-        Toast.makeText(getApplicationContext(), Hostelcode, Toast.LENGTH_SHORT).show();
-        Toast.makeText(getApplicationContext(), (qrCode.valueAt(0).displayValue), Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getApplicationContext(), Hostelcode, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getApplicationContext(), (qrCode.valueAt(0).displayValue), Toast.LENGTH_SHORT).show();
         if (Hostelcode.equals(qrCode.valueAt(0).displayValue)) {
             Vibrator vibrator = (Vibrator) getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
             vibrator.vibrate(500);
@@ -178,6 +178,9 @@ public class BarcodeScanner extends AppCompatActivity {
         }
         else
         {
+          //  Toast.makeText(getApplicationContext(), code, Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getApplicationContext(), (qrCode.valueAt(0).displayValue), Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getApplicationContext(),"hostel name"+hostel,Toast.LENGTH_LONG).show();
             Vibrator vibrator = (Vibrator) getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
             vibrator.vibrate(1000);
             textView.setText("Scanning error!! Please Scan again!!");
@@ -204,9 +207,9 @@ public class BarcodeScanner extends AppCompatActivity {
                     finish();
 
                 } else {
-                    Toast.makeText(getApplicationContext(), code, Toast.LENGTH_SHORT).show();
-                    Toast.makeText(getApplicationContext(), (qrCode.valueAt(0).displayValue), Toast.LENGTH_SHORT).show();
-                    Toast.makeText(getApplicationContext(),"Lib name"+libName,Toast.LENGTH_LONG).show();
+                    //Toast.makeText(getApplicationContext(), code, Toast.LENGTH_SHORT).show();
+                   // Toast.makeText(getApplicationContext(), (qrCode.valueAt(0).displayValue), Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getApplicationContext(),"Lib name"+libName,Toast.LENGTH_LONG).show();
                     Vibrator vibrator = (Vibrator) getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
                     vibrator.vibrate(1000);
                     textView.setText("Scanning error!! Please Scan again!!");

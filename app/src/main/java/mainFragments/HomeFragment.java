@@ -184,7 +184,7 @@ public class HomeFragment extends Fragment {
                                     if (document.exists()) {
                                         String statuslib = (String) document.get("Library");
                                         Intent intent = new Intent(getContext(), BarcodeScanner.class);
-                                        intent.putExtra("task", "verification");
+                                        intent.putExtra("task", "return");
                                         intent.putExtra("hostel", hostelName);
                                         intent.putExtra("libName",statuslib);
                                         // Toast.makeText(getContext(),hostelName,Toast.LENGTH_LONG).show();
