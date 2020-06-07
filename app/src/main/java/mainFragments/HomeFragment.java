@@ -141,12 +141,26 @@ public class HomeFragment extends Fragment {
                 else {
                     if (checkPerms()) {
                         onPause();
-                        Intent intent = new Intent(getContext(), BarcodeScanner.class);
-                        intent.putExtra("task", "verification");
-                        intent.putExtra("hostel", hostelName);
-                        intent.putExtra("libName",selectedLib);
-                        // Toast.makeText(getContext(),hostelName,Toast.LENGTH_LONG).show();
-                        startActivity(intent);
+                        fstore = FirebaseFirestore.getInstance();
+                        DocumentReference docRef = fstore.collection("Hostel").document(hostelName).collection("studentList").document(uid);
+                        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    DocumentSnapshot document = task.getResult();
+                                    if (document.exists()) {
+                                        String statuslib = (String) document.get("Library");
+                                        Intent intent = new Intent(getContext(), BarcodeScanner.class);
+                                        intent.putExtra("task", "verification");
+                                        intent.putExtra("hostel", hostelName);
+                                        intent.putExtra("libName",statuslib);
+                                        // Toast.makeText(getContext(),hostelName,Toast.LENGTH_LONG).show();
+                                        startActivity(intent);
+                                    }
+                                }
+                            }
+                        });
+
 
                     }
                 }
@@ -160,13 +174,26 @@ public class HomeFragment extends Fragment {
                 else if (pass_status.getText().toString().equals("Pass Verified")) {
                     if (checkPerms()) {
                         onPause();
-                        Intent intent = new Intent(getContext(), BarcodeScanner.class);
-                        intent.putExtra("task", "return");
-                        intent.putExtra("hostel", hostelName);
-                        intent.putExtra("libName",selectedLib);
-                        //Toast.makeText(getContext(),hostelName,Toast.LENGTH_LONG).show();
-                        startActivity(intent);
-                        onResume();
+                        fstore = FirebaseFirestore.getInstance();
+                        DocumentReference docRef = fstore.collection("Hostel").document(hostelName).collection("studentList").document(uid);
+                        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    DocumentSnapshot document = task.getResult();
+                                    if (document.exists()) {
+                                        String statuslib = (String) document.get("Library");
+                                        Intent intent = new Intent(getContext(), BarcodeScanner.class);
+                                        intent.putExtra("task", "verification");
+                                        intent.putExtra("hostel", hostelName);
+                                        intent.putExtra("libName",statuslib);
+                                        // Toast.makeText(getContext(),hostelName,Toast.LENGTH_LONG).show();
+                                        startActivity(intent);
+                                        onResume();
+                                    }
+                                }
+                            }
+                        });
 
 
                     }
@@ -583,6 +610,7 @@ public class HomeFragment extends Fragment {
         profilemap.put("time", currenttime);
         profilemap.put("status", "0");
         profilemap.put("libStatus", "0");
+        profilemap.put("hostel", mStudent.getH());
         documentReference.set(profilemap).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
@@ -592,7 +620,7 @@ public class HomeFragment extends Fragment {
 
             }
         });
-        profilemap.put("hostel", mStudent.getH());
+
 
         DocumentReference documentReferenceLib = fstore.collection("Library").document(selectedLib).collection("studentList").document(uid);
         documentReferenceLib.set(profilemap).addOnSuccessListener(new OnSuccessListener<Void>() {

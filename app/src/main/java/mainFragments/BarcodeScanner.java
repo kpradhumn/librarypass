@@ -63,9 +63,7 @@ public class BarcodeScanner extends AppCompatActivity {
         SimpleDateFormat dayFormat = new SimpleDateFormat("dd");
         day = dayFormat.format(calfordate.getTime());
         uid=day.concat(currentuserid);
-        value = getIntent().getExtras().getString("task");
-        hostel=getIntent().getExtras().getString("hostel");
-        libName=getIntent().getExtras().getString("libName");
+
 
         barcodeDetector = new BarcodeDetector.Builder(this).setBarcodeFormats(Barcode.QR_CODE).build();
         cameraSource = new CameraSource.Builder(this, barcodeDetector).
@@ -109,8 +107,9 @@ public class BarcodeScanner extends AppCompatActivity {
                     textView.post(new Runnable() {
                         @Override
                         public void run() {
-
-
+                            value = getIntent().getExtras().getString("task");
+                            hostel=getIntent().getExtras().getString("hostel");
+                            libName=getIntent().getExtras().getString("libName");
                             if(value.equals("verification")) {
                                 SharedPreferences sharedPreferences = getSharedPreferences("pass" + day, MODE_PRIVATE);
                                 SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -121,6 +120,7 @@ public class BarcodeScanner extends AppCompatActivity {
                                 String currenttime = currenttimeformat.format(calfortime.getTime());
                                 fstore.collection("QrCodes").document(libName).get().addOnSuccessListener(documentSnapshot ->
                                 {
+
                                     code = documentSnapshot.getString("qr");
                                     checkValueatVerification(qrCode);
 
@@ -151,6 +151,8 @@ public class BarcodeScanner extends AppCompatActivity {
         Calendar calfortime = Calendar.getInstance();
         SimpleDateFormat currenttimeformat = new SimpleDateFormat("hh:mm a");
         String currenttime = currenttimeformat.format(calfortime.getTime());
+        Toast.makeText(getApplicationContext(), Hostelcode, Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), (qrCode.valueAt(0).displayValue), Toast.LENGTH_SHORT).show();
         if (Hostelcode.equals(qrCode.valueAt(0).displayValue)) {
             Vibrator vibrator = (Vibrator) getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
             vibrator.vibrate(500);
@@ -184,11 +186,12 @@ public class BarcodeScanner extends AppCompatActivity {
 
 
     private void checkValueatVerification(SparseArray<Barcode> qrCode) {
+
                 if (code.equals((qrCode.valueAt(0).displayValue))) {
                     Vibrator vibrator = (Vibrator) getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
                     vibrator.vibrate(500);
                     fstore.collection("Library").document(libName).collection("studentList").document(uid)
-                            .update("status", "1");
+                            .update("libStatus", "1");
                     fstore.collection("Hostel").document(hostel).collection("studentList").document(uid)
                             .update("libStatus", "1");
                     sharedPreferences = getSharedPreferences("ver", MODE_PRIVATE);
@@ -201,6 +204,9 @@ public class BarcodeScanner extends AppCompatActivity {
                     finish();
 
                 } else {
+                    Toast.makeText(getApplicationContext(), code, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), (qrCode.valueAt(0).displayValue), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),"Lib name"+libName,Toast.LENGTH_LONG).show();
                     Vibrator vibrator = (Vibrator) getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
                     vibrator.vibrate(1000);
                     textView.setText("Scanning error!! Please Scan again!!");
