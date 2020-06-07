@@ -9,13 +9,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Html;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.librarypass.ForgetPassword;
 import com.example.librarypass.MainActivity;
 import com.example.librarypass.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -30,9 +28,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-
-import Models.mStudent;
-import mainFragments.HomeFragment;
 
 public class Login extends AppCompatActivity {
 
@@ -101,7 +96,6 @@ public class Login extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         FirebaseUser user = mauth.getCurrentUser();
                         if (user.isEmailVerified()) {
-                            Toast.makeText(Login.this, "Logged in successfuly", Toast.LENGTH_LONG).show();
                             loadingbar.dismiss();
                             sendUsertoMainactivity();
                         }
@@ -157,7 +151,7 @@ public class Login extends AppCompatActivity {
         });
 
     }
-    private void allowlogin()
+    private void allowlogin(String hostel)
     {
         SharedPreferences sharedPreferences = getSharedPreferences("hostel_pref", MODE_PRIVATE);
         String hostelName = sharedPreferences.getString("hostel", "");
@@ -166,25 +160,28 @@ public class Login extends AppCompatActivity {
         String day = dayFormat.format(calfordate.getTime());
         String currentuserid = mauth.getCurrentUser().getUid();
         String uid = day.concat(currentuserid);
-        DocumentReference docRef = FirebaseFirestore.getInstance().collection("Hostel").document(hostelName).collection("studentList").document(uid);
+        DocumentReference docRef = FirebaseFirestore.getInstance().collection("Hostel").document(hostel).collection("studentList").document(uid);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
-                        String status = (String) document.get("status");
+                        String status =document.get("status").toString();
                         if (status.equals("0")) {
                             new AlertDialog.Builder(Login.this).setTitle("Cannot Login").setMessage(Html.fromHtml("Seems a user is <b>logged in</b> from another device.<br>Since a pass is yet to be <b>returned</b> from this user hence <b>login</b> for now is not possible.<br><b>Return</b> the pass first by scanning the QR code from logged in device "))
                                     .setPositiveButton("OK", null).show();
+                            Toast.makeText(Login.this, "Login in not allowed", Toast.LENGTH_LONG).show();
                         }
                         else
                         {Intent mainintent=new Intent(Login.this, MainActivity.class);
+                            Toast.makeText(Login.this, "Logged in successfuly", Toast.LENGTH_LONG).show();
                             mainintent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             startActivity(mainintent);
                             finish();}}
                     else
                     {Intent mainintent=new Intent(Login.this, MainActivity.class);
+                        Toast.makeText(Login.this, "Logged in successfuly", Toast.LENGTH_LONG).show();
                         mainintent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(mainintent);
                         finish();}
@@ -200,7 +197,9 @@ public class Login extends AppCompatActivity {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("hostel", hostel);
         editor.apply();
-        allowlogin();
+        editor.putString("Roll",mStudent.getRoll());
+        editor.apply();
+        allowlogin(hostel);
     }
 
 }

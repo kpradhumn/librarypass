@@ -103,6 +103,12 @@ public class TrackFragment extends Fragment {
         gen = view.findViewById(R.id.tv_passgenerated);
         ver = view.findViewById(R.id.tv_passverified);
         ret = view.findViewById(R.id.tv_passreturn);
+        SharedPreferences sharedPreferencesHostel = getActivity().getSharedPreferences("hostel_pref", MODE_PRIVATE);
+        String Roll = sharedPreferencesHostel.getString("Roll", "");
+        Calendar calfordate = Calendar.getInstance();
+        SimpleDateFormat dayFormat = new SimpleDateFormat("dd");
+        String day = dayFormat.format(calfordate.getTime());
+        String pid = day.concat(Roll);
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("pass" + day, MODE_PRIVATE);
         SharedPreferences sharedPreference = getActivity().getSharedPreferences("gen", MODE_PRIVATE);
         SharedPreferences sharedPreferenced = getActivity().getSharedPreferences("date", MODE_PRIVATE);
@@ -123,6 +129,7 @@ public class TrackFragment extends Fragment {
             reqtime.setText(genTime);
             gentime.setText(genTime);
             passdate.setText(passDate);
+            passid.setText(pid);
             // passid.setText((int) timestamp.getTime());
             emoji.setVisibility(View.INVISIBLE);
             notgen.setVisibility(View.INVISIBLE);
@@ -146,6 +153,7 @@ public class TrackFragment extends Fragment {
             reqtime.setText(genTime);
             gentime.setText(genTime);
             passdate.setText(passDate);
+            passid.setText(pid);
             // passid.setText((int) timestamp.getTime());
             emoji.setVisibility(View.INVISIBLE);
             notgen.setVisibility(View.INVISIBLE);
@@ -175,6 +183,7 @@ public class TrackFragment extends Fragment {
             reqtime.setText(genTime);
             gentime.setText(genTime);
             passdate.setText(passDate);
+            passid.setText(pid);
             // passid.setText((int) timestamp.getTime());
             emoji.setVisibility(View.INVISIBLE);
             notgen.setVisibility(View.INVISIBLE);
@@ -208,6 +217,7 @@ public class TrackFragment extends Fragment {
             reqtime.setText(genTime);
             gentime.setText(genTime);
             passdate.setText(passDate);
+            passid.setText(pid);
             // passid.setText((int) timestamp.getTime());
             emoji.setVisibility(View.INVISIBLE);
             notgen.setVisibility(View.INVISIBLE);

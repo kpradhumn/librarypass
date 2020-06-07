@@ -51,6 +51,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 
 import Models.mStudent;
 import studentAuth.Login;
@@ -318,7 +319,7 @@ public class HomeFragment extends Fragment {
         char nameHostel[] = hostelName.toCharArray();
        // Toast.makeText(getContext(), Arrays.toString(nameHostel), Toast.LENGTH_LONG).show();
         if (nameHostel[0] == 'q' || nameHostel[0] == 'Q') {
-            if (finalhr >= 18 && finalhr <= 19) {
+            if (finalhr >= 18 && finalhr <= 23) {
                 Log.d(TAG, "onclick: opening dialog");
                 createpoupdialog();
                 //fetchInfo();
@@ -332,7 +333,7 @@ public class HomeFragment extends Fragment {
 
             }
         } else if (nameHostel[0] == 'k' || nameHostel[0] == 'K') {
-            if (finalhr >= 18 && finalhr <= 20) {
+            if (finalhr >= 18 && finalhr <=23) {
                 Log.d(TAG, "onclick: opening dialog");
                 newpass.setVisibility(View.INVISIBLE);
                 createpoupdialog();
@@ -540,7 +541,7 @@ public class HomeFragment extends Fragment {
                 editor.putString("lib", libName);
                 editor.apply();
                 if(position==0)
-                    selectedLib="Lib"+mStudent.getCourse();
+                    selectedLib="LIB"+mStudent.getCourse().toUpperCase(Locale.ENGLISH);
                 else if(position==1)
                     selectedLib="Central Lib";
 
@@ -642,8 +643,6 @@ public class HomeFragment extends Fragment {
             }
         }
     }
-
-
 
 }
 
